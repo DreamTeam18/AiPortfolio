@@ -1,0 +1,494 @@
+<project_specification>
+  <project_name>AI Portfolio - Siddhant Saxena</project_name>
+
+  <overview>
+    An interactive AI-powered personal portfolio website for Siddhant Saxena, a Software Development Engineer and MS Data Science student at George Washington University. The site features a chatbot interface where visitors can ask questions about Siddhant, along with dedicated sections for projects, skills, and contact information. The landing page is already built with React + Vite + Tailwind CSS and needs its navigation buttons wired up, new sections created, and an LLM-powered chatbot integrated as the final step.
+  </overview>
+
+  <technology_stack>
+    <frontend>
+      <framework>React 19 with TypeScript (Vite 7 bundler) - ALREADY SET UP</framework>
+      <styling>Tailwind CSS 3.4 + shadcn/ui component library - ALREADY SET UP</styling>
+      <icons>lucide-react - ALREADY SET UP</icons>
+      <animations>CSS transitions and transforms (smooth SPA transitions)</animations>
+      <carousel>embla-carousel-react - ALREADY INSTALLED</carousel>
+      <state>React useState/useContext for SPA routing (no React Router - state-based transitions)</state>
+    </frontend>
+    <backend>
+      <runtime>Node.js + Express (for chatbot API proxy only - added last)</runtime>
+      <llm_provider>OpenRouter API (user provides API key)</llm_provider>
+      <chatbot_context>System prompt with Siddhant's resume and portfolio data hardcoded</chatbot_context>
+    </backend>
+    <communication>
+      <api>REST API - single endpoint for chatbot (POST /api/chat)</api>
+    </communication>
+    <database>none - stateless application. All portfolio content (projects, skills, contact) is hardcoded in the frontend. Chatbot uses OpenRouter API with no conversation persistence.</database>
+  </technology_stack>
+
+  <prerequisites>
+    <environment_setup>
+      - Node.js 18+ installed
+      - npm or yarn package manager
+      - OpenRouter API key (for chatbot functionality - integrated last)
+      - Existing codebase at project root with React + Vite + Tailwind already configured
+    </environment_setup>
+    <existing_codebase>
+      The landing page is ALREADY BUILT. The following files exist and should be EXTENDED, not replaced:
+      - src/App.tsx - Main app component (add routing state and section rendering)
+      - src/sections/Header.tsx - Top navigation (wire up info button and star button)
+      - src/sections/Hero.tsx - Landing hero (modify for section transitions)
+      - src/sections/Watermark.tsx - Background watermark (keep as-is)
+      - src/components/fluid/FluidCanvas.tsx - WebGL fluid background (keep as-is)
+      - src/components/ui/* - Full shadcn/ui library (use these components)
+      - src/public/memoji.jpg - Avatar image (keep using this)
+    </existing_codebase>
+  </prerequisites>
+
+  <feature_count>70</feature_count>
+
+  <security_and_access_control>
+    <user_roles>
+      <role name="visitor">
+        <permissions>
+          - Can view all sections (Me, Projects, Skills, Contact)
+          - Can interact with chatbot
+          - Can navigate between sections
+          - No login required
+        </permissions>
+      </role>
+    </user_roles>
+    <authentication>
+      <method>none - public portfolio site</method>
+      <session_timeout>none</session_timeout>
+    </authentication>
+    <sensitive_operations>
+      - OpenRouter API key stored server-side only (never exposed to frontend)
+    </sensitive_operations>
+  </security_and_access_control>
+
+  <core_features>
+    <landing_page_and_layout>
+      - Hero section with avatar (memoji.jpg), greeting "Hey, I'm Siddhant", title "AI Portfolio"
+      - "Ask me anything..." search/chat input with blue send button
+      - 4 navigation buttons in grid: Me (teal), Projects (green), Skills (purple), Contact (gold)
+      - Each button has icon + label and scale animation on click
+      - Interactive WebGL fluid background canvas (ALREADY BUILT - preserve)
+      - "Saxena" watermark text at bottom (ALREADY BUILT - preserve)
+      - Responsive layout: mobile-first with md breakpoints
+      - Layout transition: when a nav button is clicked, avatar shrinks and moves to top center, content area appears, bottom toolbar appears
+    </landing_page_and_layout>
+
+    <navigation_and_routing>
+      - SPA-style state-based routing (no React Router, no URL changes)
+      - Smooth transitions between landing page and section views
+      - Bottom toolbar with 5 buttons: Me, Projects, Skills, Contact, smiley face (about/home)
+      - "Hide quick questions" / "Show quick questions" toggle to collapse/expand bottom toolbar buttons
+      - Active button state highlighting for current section
+      - Smiley face button (😊) navigates to the "Me/About" section
+      - Clicking avatar at top returns to landing page
+      - "Ask me anything" input pinned at bottom of all section views
+    </navigation_and_routing>
+
+    <header>
+      - Fixed header with backdrop blur (ALREADY BUILT - wire up buttons)
+      - "Looking for a talent?" button with green dot indicator (left side)
+      - GitHub Star button (right side) - links to https://github.com/siddhant1599 in new tab
+      - Info (ⓘ) button - opens Welcome modal
+    </header>
+
+    <info_modal_exact_clone>
+      - EXACT CLONE of provided screenshot - must match precisely
+      - Title: "Welcome to AI Portfolio"
+      - Gray card section with:
+        - "What's this ????" heading (bold)
+        - Text: "I'm so excited to present my brand new AI Portfolio." (bold on "brand new AI Portfolio")
+        - Text: "Whether you're a recruiter, a friend, family member, or just curious, feel free to ask anything you want!"
+        - "Why ???" heading (bold)
+        - Text: "Traditional portfolios can be limiting."
+        - Text: "They can't adapt to every visitor's specific needs."
+        - Text: "My portfolio becomes exactly what you're interested in knowing about me and my work." (bold on last sentence)
+      - "Start Chatting" black button at bottom center - closes modal and focuses chat input
+      - "If you love it, please share it! Feedback is always welcome. Contact me." with "Contact me" as clickable link
+      - Close (X) button in top-right corner
+      - Modal overlay with dark background
+    </info_modal_exact_clone>
+
+    <me_section>
+      - Triggered by smiley face (😊) button in bottom toolbar
+      - Avatar (memoji.jpg) at top center (smaller than landing page)
+      - Two-column layout (responsive, stacks on mobile):
+        - Left: Large photo of Siddhant (a placeholder professional/city photo)
+        - Right: Name "Siddhant Saxena", subtitle with age and location (Washington, DC)
+      - Bio text: "Hey 👋 I'm Siddhant. I'm a masters student specializing in Data Science at George Washington University. I'm passionate about AI, tech, Entrepreneurship and SaaS tech."
+      - Tag pills: AI, Developer, GWU, Software Engineer, SaaS Builder, Spring Boot, Java
+      - Tags styled as rounded bordered pills
+    </me_section>
+
+    <projects_section>
+      - Triggered by "Projects" button
+      - "My Projects" heading (bold, left-aligned)
+      - Horizontal carousel of project cards (3 visible at a time on desktop)
+      - Left/right arrow navigation buttons below carousel
+      - 4 project cards with gradient background artwork:
+
+        1. Airbnb (Hotel Booking System)
+           - Category: "Backend Project"
+           - Title: "Airbnb - Hotel Booking System"
+           - Gradient: warm tones
+           - Detail modal: Year 2021-2025, description from resume/GitHub (Spring Boot REST API, Resilience4j, PostgreSQL, JWT auth, Stripe payments, dynamic pricing), Technologies: Java, Spring Boot, PostgreSQL, Stripe, JWT
+
+        2. LaughGPT (Multi-AI Fullstack App)
+           - Category: "Fullstack Project"
+           - Title: "LaughGPT"
+           - Gradient: green/teal tones
+           - Detail modal: Year 2024, description (fullstack app integrating multiple AI models with single prompt, React + Spring Boot), Technologies: React, TypeScript, Spring Boot, Java, AI APIs
+
+        3. kafkaDemoProject (Kafka + Microservices)
+           - Category: "Microservices Project"
+           - Title: "Kafka Demo Project"
+           - Gradient: purple tones
+           - Detail modal: Year 2024, description (Kafka configuration with Spring Boot, Schema Registry, microservices with notification-service and user-service), Technologies: Java, Spring Boot, Apache Kafka, Docker, Confluent
+
+        4. Docker-repo (Containerized Spring + PostgreSQL)
+           - Category: "DevOps Project"
+           - Title: "Docker-repo"
+           - Gradient: blue/dark tones
+           - Detail modal: Year 2024, description (Dockerized backend Spring service with PostgreSQL using Docker Compose), Technologies: Java, Spring Boot, Docker, PostgreSQL, Maven
+
+      - Each card is clickable → opens detail modal
+    </projects_section>
+
+    <project_detail_modal>
+      - Dark overlay background
+      - White modal card with rounded corners
+      - Close (X) button in top-right (black circle with white X)
+      - Category label at top (e.g., "Backend Project")
+      - Large project title
+      - Gray card section with:
+        - Year label
+        - Description paragraph
+        - "TECHNOLOGIES" label
+        - Technology tag pills (rounded gray pills)
+      - Smooth open/close animation
+    </project_detail_modal>
+
+    <skills_section>
+      - Triggered by "Skills" button
+      - "Skills & Expertise" heading (bold, large)
+      - Skills organized in categories with icons:
+
+        1. Frontend Development (code icon <>)
+           - HTML, CSS, JavaScript/TypeScript, Tailwind CSS, Bootstrap, Next.js, React, Vercel AI SDK, GSAP
+
+        2. Backend & Systems (gear icon)
+           - Java, Python, C#, Kotlin, Spring Boot, Angular, NodeJS, .NET 4.8
+
+        3. Database (database icon)
+           - SQL, MongoDB, Neo4j, Redis, PostgreSQL
+
+        4. Tools & DevOps (tools icon)
+           - Git, GitHub, Docker, AWS, Azure Services, GCP, Maven, Postman, PowerBI
+
+        5. AI & Fullstack Engineering (AI icon)
+           - LLM Providers (ChatGPT, Whisper, Groq, Mistral & Claude), AI Agents, Prompt Engineering, Vector databases (Weaviate, Pinecone), RAG, Tool routing & calling
+
+        6. Soft Skills (people icon)
+           - Communication, Problem-Solving, Adaptability, Learning Agility, Teamwork, Creativity, Focus
+
+      - Each skill displayed as a rounded bordered pill/tag
+      - Category sections separated with icon + heading
+    </skills_section>
+
+    <contact_section>
+      - Triggered by "Contact" button
+      - Gray background card/container
+      - "Contacts" heading (bold, large) with "@Siddhant.Saxena" handle on the right
+      - Email: siddhant.saxena@gwu.edu (clickable link with arrow icon →)
+      - Social links row: LinkedIn, Discord, Github
+        - GitHub links to https://github.com/siddhant1599
+        - LinkedIn and Discord as placeholder links
+      - Clean, minimal layout
+    </contact_section>
+
+    <chatbot_ui_design>
+      - "Ask me anything" text input pinned at bottom of viewport
+      - Blue/purple circular send button with up-arrow icon
+      - Chat messages appear above the input in the content area
+      - Bot responses displayed as text paragraphs (casual, first-person personality)
+      - Smooth appearance animation for new messages
+      - Chat area scrolls as conversation grows
+      - Chat persists across section switches within same session
+      - Chatbot personality: casual, fun, first-person as Siddhant - deflects non-portfolio questions playfully
+    </chatbot_ui_design>
+
+    <chatbot_backend_integration>
+      - Node.js + Express server with single POST /api/chat endpoint
+      - Accepts { message: string, history: array } in request body
+      - Uses OpenRouter API to send message with system prompt context
+      - System prompt contains Siddhant's full resume, project details, skills, and personality instructions
+      - Streams or returns response to frontend
+      - API key stored in .env file (server-side only)
+      - CORS configured for frontend origin
+      - This feature is implemented LAST after all UI sections are complete
+    </chatbot_backend_integration>
+
+    <responsive_design>
+      - Mobile-first approach with Tailwind breakpoints
+      - Landing page: avatar 192px mobile, 288px desktop
+      - Navigation buttons: 2-column on mobile, 4-column on desktop
+      - Projects carousel: 1 card mobile, 2 tablet, 3 desktop
+      - Skills section: single column mobile, multi-column desktop
+      - Me section: stacked mobile, side-by-side desktop
+      - Contact card: full-width responsive
+      - Bottom toolbar: horizontal scroll on very small screens
+    </responsive_design>
+  </core_features>
+
+  <database_schema>
+    <tables>
+      None - stateless application. All data is hardcoded in frontend components.
+    </tables>
+  </database_schema>
+
+  <api_endpoints_summary>
+    <chatbot>
+      - POST /api/chat (send message, get AI response via OpenRouter)
+      - GET /api/health (server health check)
+    </chatbot>
+  </api_endpoints_summary>
+
+  <ui_layout>
+    <main_structure>
+      Single-page application with two main states:
+
+      STATE 1 - Landing Page:
+      - Fixed header (Looking for talent? | ⓘ | Star)
+      - Centered content: Large avatar → Greeting → Title → Search input → 4 nav buttons
+      - Fluid WebGL background
+      - Watermark at bottom
+
+      STATE 2 - Section View (after clicking any nav button):
+      - Fixed header (same)
+      - Small avatar at top center
+      - Content area (section-specific content with smooth transitions)
+      - "Hide/Show quick questions" toggle
+      - Bottom toolbar: Me | Projects | Skills | Contact | 😊
+      - "Ask me anything" input pinned at very bottom
+    </main_structure>
+
+    <transitions>
+      - Landing → Section: Avatar shrinks and moves up, content fades in from below, bottom toolbar slides up
+      - Section → Section: Content cross-fades smoothly
+      - Section → Landing: Reverse of above (click avatar at top)
+    </transitions>
+
+    <modals>
+      - Info Modal: Full-screen overlay with centered white card
+      - Project Detail Modal: Full-screen overlay with centered white card, dark header area
+    </modals>
+  </ui_layout>
+
+  <design_system>
+    <color_palette>
+      - Background: Pure white (#FFFFFF)
+      - Text: Dark gray/black (#0A0A0A)
+      - Primary accent: Blue (#3B82F6) for send button
+      - Me button icon: Teal (#329696)
+      - Projects button icon: Green (#3E9858)
+      - Skills button icon: Purple (#856ED9)
+      - Contact button icon: Gold (#C19433)
+      - Tag pills: Light gray background (#F5F5F5) with dark text and subtle border
+      - Modal overlay: rgba(0,0,0,0.5)
+      - Card backgrounds: Light gray (#F5F5F5)
+      - Project card gradients: Custom per project (purple/blue, green/teal, gray/purple, dark blue)
+    </color_palette>
+    <typography>
+      - System font stack (Tailwind defaults)
+      - Headings: Bold, large (text-3xl to text-5xl)
+      - Body: Regular weight, text-base
+      - Tag pills: text-sm, medium weight
+      - Clean, minimal, modern aesthetic
+    </typography>
+    <design_principles>
+      - Clean white space-heavy layout
+      - Rounded corners on all interactive elements
+      - Subtle shadows on cards and buttons
+      - Smooth micro-animations (scale on click, fade transitions)
+      - Consistent icon style via lucide-react
+      - Mobile-responsive at all breakpoints
+    </design_principles>
+  </design_system>
+
+  <personal_data>
+    <name>Siddhant Saxena</name>
+    <location>Washington, DC</location>
+    <email>siddhant.saxena@gwu.edu</email>
+    <phone>+1(571)237-5921</phone>
+    <github>https://github.com/siddhant1599</github>
+    <education>
+      - Master of Science, Data Science - The George Washington University (Jan 2027)
+      - Bachelor of Technology, Computer Science - Vishwakarma Institute of Technology, Pune, India (June 2021)
+    </education>
+    <work_experience>
+      - Graduate Teaching Assistant (DATS 6001 - Data Structures and Algorithm Design), GWU, Washington DC (Jan 2026 - Present)
+      - Software Development Engineer, Emerson (DeltaV Technology Team), Pune, India (July 2021 - Jan 2025)
+        - Java Spring Boot microservices, Resilience4j, Prometheus monitoring
+        - Spring Data JPA, PostgreSQL, JPQL
+        - Spring Security with RBAC, JWT authentication
+        - JUnit and Mockito testing (85%+ coverage)
+        - Kafka messaging for alarm publishing and live data exchange
+        - Azure Key Vault with Spring Cloud Config Server
+        - CI/CD with Azure DevOps pipelines
+      - E&I Studio - Angular, D3.js, Neo4j, Docker, Azure Kubernetes Service
+    </work_experience>
+    <technical_projects>
+      - AI Driven Code Generation SaaS Platform (like Lovable/v0.dev) - Nov 2025
+        - Spring Boot + Spring AI, SSE streaming, 10K+ concurrent sessions
+        - Kubernetes autoscaling, Fabric8 & Ingress, auto-updating build preview pods
+        - Token quota tracking, RBAC, subscription plans
+      - Stock Market Trend Prediction System - Jan 2025
+        - Neural networks, Linear Regression, Time Series (91% accuracy)
+    </technical_projects>
+    <technical_skills>
+      - Development: Java, Python, HTML, CSS, JavaScript, C#, Kotlin
+      - Frameworks: Spring Boot, Angular, NodeJS, .NET 4.8
+      - Database: SQL, MongoDB, Neo4j, Redis, PostgreSQL
+      - Tools: Git, Maven, AWS, Docker, Azure Services, Postman, PowerBI
+    </technical_skills>
+  </personal_data>
+
+  <implementation_steps>
+    <step number="1">
+      <title>Navigation & Layout Transitions</title>
+      <tasks>
+        - Add state-based SPA routing to App.tsx (activeSection state)
+        - Implement layout transition from landing page to section view
+        - Create bottom toolbar component with 5 buttons
+        - Add "Hide/Show quick questions" toggle
+        - Wire up avatar click to return to landing
+        - Add smooth CSS transitions between states
+      </tasks>
+    </step>
+    <step number="2">
+      <title>Header Buttons & Info Modal</title>
+      <tasks>
+        - Wire up GitHub Star button to link to github.com/siddhant1599
+        - Wire up "Looking for a talent?" button behavior
+        - Create Info modal (EXACT CLONE of screenshot)
+        - Wire up ⓘ button to open Info modal
+        - Add "Start Chatting" button functionality
+        - Add "Contact me" link in modal
+      </tasks>
+    </step>
+    <step number="3">
+      <title>Me/About Section</title>
+      <tasks>
+        - Create Me section component with two-column layout
+        - Add profile photo placeholder, name, age, location
+        - Add bio text with greeting emoji
+        - Add tag pills with Siddhant's key identifiers
+        - Make responsive (stack on mobile)
+      </tasks>
+    </step>
+    <step number="4">
+      <title>Projects Section</title>
+      <tasks>
+        - Create Projects section with "My Projects" heading
+        - Build project card component with gradient backgrounds
+        - Implement horizontal carousel with embla-carousel-react
+        - Add left/right arrow navigation
+        - Create 4 project cards (Airbnb, LaughGPT, kafkaDemoProject, Docker-repo)
+        - Build project detail modal component
+        - Add project data with descriptions, years, technologies
+      </tasks>
+    </step>
+    <step number="5">
+      <title>Skills Section</title>
+      <tasks>
+        - Create Skills section with "Skills & Expertise" heading
+        - Build skill category component with icons
+        - Create 6 skill categories with tag pills
+        - Populate with skills from resume
+        - Style tag pills consistently
+        - Make responsive layout
+      </tasks>
+    </step>
+    <step number="6">
+      <title>Contact Section</title>
+      <tasks>
+        - Create Contact section with gray card container
+        - Add "Contacts" heading with "@Siddhant.Saxena" handle
+        - Add email link with arrow icon
+        - Add social links row (LinkedIn, Discord, GitHub)
+        - Style consistently with screenshots
+      </tasks>
+    </step>
+    <step number="7">
+      <title>Chatbot UI</title>
+      <tasks>
+        - Create chat message display area
+        - Build message bubble components
+        - Add typing indicator animation
+        - Implement chat scroll behavior
+        - Persist chat across section switches
+        - Style bot responses with casual personality
+      </tasks>
+    </step>
+    <step number="8">
+      <title>Chatbot Backend Integration (LAST)</title>
+      <tasks>
+        - Set up Node.js + Express server
+        - Create POST /api/chat endpoint
+        - Integrate OpenRouter API
+        - Write system prompt with Siddhant's full resume context
+        - Configure CORS and .env for API key
+        - Connect frontend to backend API
+        - Test end-to-end conversation flow
+      </tasks>
+    </step>
+    <step number="9">
+      <title>Polish & Responsive</title>
+      <tasks>
+        - Test all breakpoints (mobile 375px, tablet 768px, desktop 1920px)
+        - Fine-tune animations and transitions
+        - Ensure consistent design across all sections
+        - Test all interactive elements
+        - Performance optimization
+      </tasks>
+    </step>
+  </implementation_steps>
+
+  <success_criteria>
+    <functionality>
+      - All 4 navigation buttons (Me, Projects, Skills, Contact) work with smooth transitions
+      - Smiley face button opens Me/About section
+      - Info modal opens and displays exact clone content
+      - GitHub Star button links to github.com/siddhant1599
+      - Projects carousel scrolls with arrows, cards open detail modals
+      - Skills display all categories with proper tag pills
+      - Contact section shows email, social links
+      - Chatbot sends messages and receives LLM responses
+      - Chat persists across section switches
+    </functionality>
+    <user_experience>
+      - Smooth, polished transitions between all sections
+      - No jarring page reloads or layout shifts
+      - Fast, responsive interactions
+      - Casual, engaging chatbot personality
+    </user_experience>
+    <technical_quality>
+      - TypeScript with no type errors
+      - Clean component architecture
+      - Reusable components (tag pills, modals, cards)
+      - Proper error handling for chatbot API
+      - Environment variable management for API keys
+    </technical_quality>
+    <design_polish>
+      - Pixel-accurate Info modal clone
+      - Consistent design language matching all screenshots
+      - Proper responsive behavior at all breakpoints
+      - Smooth animations and micro-interactions
+      - Clean white-space-heavy aesthetic
+    </design_polish>
+  </success_criteria>
+</project_specification>
