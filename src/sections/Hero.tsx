@@ -27,7 +27,7 @@ export function Hero() {
     setChatHistory(newHistory);
 
     try {
-      const response = await fetch('http://localhost:3002/api/chat', {
+      const response = await fetch('http://localhost:3001/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
