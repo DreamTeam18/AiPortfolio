@@ -1,17 +1,23 @@
 import { useState } from 'react';
 import { ArrowRight, User, FolderKanban, Layers, Mail, Loader2 } from 'lucide-react';
 
-export function Hero() {
+type Section = 'me' | 'projects' | 'skills' | 'contact';
+
+interface HeroProps {
+  onNavigate: (section: Section) => void;
+}
+
+export function Hero({ onNavigate }: HeroProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [chatHistory, setChatHistory] = useState<Array<{ role: string; content: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const navButtons = [
-    { icon: User, label: 'Me', color: '#329696' },
-    { icon: FolderKanban, label: 'Projects', color: '#3E9858' },
-    { icon: Layers, label: 'Skills', color: '#856ED9' },
-    { icon: Mail, label: 'Contact', color: '#C19433' },
+    { id: 'me' as Section, icon: User, label: 'Me', color: '#329696' },
+    { id: 'projects' as Section, icon: FolderKanban, label: 'Projects', color: '#3E9858' },
+    { id: 'skills' as Section, icon: Layers, label: 'Skills', color: '#856ED9' },
+    { id: 'contact' as Section, icon: Mail, label: 'Contact', color: '#C19433' },
   ];
 
   const handleSendMessage = async () => {
@@ -145,6 +151,7 @@ export function Hero() {
         {navButtons.map((button) => (
           <button
             key={button.label}
+            onClick={() => onNavigate(button.id)}
             className="aspect-square w-full cursor-pointer rounded-2xl border border-gray-200 bg-white/30 py-8 shadow-none backdrop-blur-lg active:scale-95 md:p-10 hover:bg-gray-50/30 transition-all"
           >
             <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
