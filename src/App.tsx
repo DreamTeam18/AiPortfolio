@@ -6,6 +6,7 @@ import { Watermark } from './sections/Watermark';
 import { WelcomeModal } from './components/WelcomeModal';
 import { MeSection } from './sections/MeSection';
 import { ProjectsSection } from './sections/ProjectsSection';
+import { SkillsSection } from './sections/SkillsSection';
 import { ContactSection } from './sections/ContactSection';
 import { BottomToolbar } from './components/BottomToolbar';
 import { ChatInput } from './components/ChatInput';
@@ -82,11 +83,7 @@ function App() {
             <div className="flex-1">
               {activeSection === 'me' && <MeSection />}
               {activeSection === 'projects' && <ProjectsSection />}
-              {activeSection === 'skills' && (
-                <div className="text-center text-gray-500 py-20">
-                  Skills section coming soon...
-                </div>
-              )}
+              {activeSection === 'skills' && <SkillsSection />}
               {activeSection === 'contact' && <ContactSection />}
             </div>
 
