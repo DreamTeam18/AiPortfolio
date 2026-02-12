@@ -1,4 +1,4 @@
-import { Github, Circle } from 'lucide-react';
+import { Github, Circle, Info } from 'lucide-react';
 
 export function Header() {
   return (
@@ -9,12 +9,20 @@ export function Header() {
         <span className="text-sm font-medium text-gray-800">Looking for a talent?</span>
       </button>
 
-      {/* Right button - Star */}
-      <button className="flex items-center gap-2 px-4 py-2 bg-gray-900/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-gray-900 transition-colors">
-        <Github className="w-4 h-4 text-white" />
-        <span className="text-sm font-medium text-white">Star</span>
-        <span className="text-sm text-yellow-400">★ 1</span>
-      </button>
+      {/* Right side buttons */}
+      <div className="flex items-center gap-3">
+        {/* Info button */}
+        <button className="flex items-center justify-center w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100 hover:bg-white transition-colors">
+          <Info className="w-5 h-5 text-gray-700" />
+        </button>
+
+        {/* Star button */}
+        <button className="flex items-center gap-2 px-4 py-2 bg-gray-900/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-gray-900 transition-colors">
+          <Github className="w-4 h-4 text-white" />
+          <span className="text-sm font-medium text-white">Star</span>
+          <span className="text-sm text-yellow-400">★ 1</span>
+        </button>
+      </div>
     </header>
   );
 }
