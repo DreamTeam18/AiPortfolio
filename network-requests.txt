@@ -1,0 +1,21 @@
+[GET] http://localhost:5176/ => [200] OK
+[GET] http://localhost:5176/@vite/client => [200] OK
+[GET] http://localhost:5176/src/main.tsx => [200] OK
+[GET] http://localhost:5176/@react-refresh => [200] OK
+[GET] http://localhost:5176/node_modules/vite/dist/client/env.mjs => [200] OK
+[GET] http://localhost:5176/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/node_modules/.vite/deps/react.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/node_modules/.vite/deps/react-dom_client.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/src/index.css => [200] OK
+[GET] http://localhost:5176/src/App.tsx => [200] OK
+[GET] http://localhost:5176/node_modules/.vite/deps/chunk-QS2HEVKA.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/src/components/fluid/index.ts => [200] OK
+[GET] http://localhost:5176/src/sections/Header.tsx => [200] OK
+[GET] http://localhost:5176/src/sections/Hero.tsx => [200] OK
+[GET] http://localhost:5176/src/sections/Watermark.tsx => [200] OK
+[GET] http://localhost:5176/node_modules/.vite/deps/chunk-6MBIOSIA.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/?token=o4uBnYfMRVIM => [101] Switching Protocols
+[GET] http://localhost:5176/node_modules/.vite/deps/lucide-react.js?v=166e6efc => [200] OK
+[GET] http://localhost:5176/src/components/fluid/FluidCanvas.tsx => [200] OK
+[GET] http://localhost:5176/src/components/fluid/fluid-simulation.ts => [200] OK
+[GET] http://localhost:5176/memoji.jpg => [200] OK
