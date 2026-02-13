@@ -54,12 +54,31 @@ const projects: Project[] = [
 export function ProjectsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [slidesToShow, setSlidesToShow] = useState(1);
 
   // Close modal when component unmounts (navigation away from Projects section)
   useEffect(() => {
     return () => {
       setSelectedProject(null);
     };
+  }, []);
+
+  // Update slidesToShow based on viewport size
+  useEffect(() => {
+    const updateSlidesToShow = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setSlidesToShow(3); // lg breakpoint - 3 cards
+      } else if (width >= 768) {
+        setSlidesToShow(2); // md breakpoint - 2 cards
+      } else {
+        setSlidesToShow(1); // mobile - 1 card
+      }
+    };
+
+    updateSlidesToShow();
+    window.addEventListener('resize', updateSlidesToShow);
+    return () => window.removeEventListener('resize', updateSlidesToShow);
   }, []);
 
   const handlePrevious = () => {
@@ -82,7 +101,7 @@ export function ProjectsSection() {
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{
-            transform: `translateX(-${currentIndex * (100 / 3)}%)`
+            transform: `translateX(-${currentIndex * (100 / slidesToShow)}%)`
           }}
         >
           {projects.map((project) => (
