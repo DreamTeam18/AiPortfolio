@@ -147,7 +147,7 @@ export function Hero({ onNavigate }: HeroProps) {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="mt-4 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3 md:grid-cols-4">
+      <div className="mt-4 grid w-full max-w-2xl grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
         {navButtons.map((button) => (
           <button
             key={button.label}
