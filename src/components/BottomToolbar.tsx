@@ -16,11 +16,11 @@ export function BottomToolbar({
   onToggleCollapse,
 }: BottomToolbarProps) {
   const buttons = [
-    { id: 'me' as Section, icon: User, label: 'Me' },
-    { id: 'projects' as Section, icon: FolderKanban, label: 'Projects' },
-    { id: 'skills' as Section, icon: Layers, label: 'Skills' },
-    { id: 'contact' as Section, icon: Mail, label: 'Contact' },
-    { id: 'me' as Section, icon: Smile, label: '😊', isSmile: true },
+    { id: 'me' as Section, icon: User, label: 'Me', color: '#329696' },
+    { id: 'projects' as Section, icon: FolderKanban, label: 'Projects', color: '#3E9858' },
+    { id: 'skills' as Section, icon: Layers, label: 'Skills', color: '#856ED9' },
+    { id: 'contact' as Section, icon: Mail, label: 'Contact', color: '#C19433' },
+    { id: 'me' as Section, icon: Smile, label: '😊', isSmile: true, color: '#329696' },
   ];
 
   return (
@@ -60,7 +60,7 @@ export function BottomToolbar({
                   <span className="text-2xl">{button.label}</span>
                 ) : (
                   <>
-                    <Icon size={20} strokeWidth={2} />
+                    <Icon size={20} strokeWidth={2} color={button.color} />
                     <span className="text-xs mt-1">{button.label}</span>
                   </>
                 )}
