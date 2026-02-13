@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { FluidCanvas } from './components/fluid';
 import { Header } from './sections/Header';
 import { Hero } from './sections/Hero';
@@ -17,6 +17,7 @@ function App() {
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<Section>('landing');
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);
+  const isNavigatingRef = useRef(false);
 
   const handleStartChatting = () => {
     // Focus on the chat input
@@ -32,13 +33,35 @@ function App() {
     setActiveSection('contact');
   };
 
-  const handleNavigate = (section: Exclude<Section, 'landing'>) => {
-    setActiveSection(section);
-  };
+  const handleNavigate = useCallback((section: Exclude<Section, 'landing'>) => {
+    // Prevent rapid navigation state updates
+    if (isNavigatingRef.current) {
+      return;
+    }
 
-  const handleAvatarClick = () => {
+    isNavigatingRef.current = true;
+    setActiveSection(section);
+
+    // Reset navigation lock after a short delay
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 100);
+  }, []);
+
+  const handleAvatarClick = useCallback(() => {
+    // Prevent rapid navigation state updates
+    if (isNavigatingRef.current) {
+      return;
+    }
+
+    isNavigatingRef.current = true;
     setActiveSection('landing');
-  };
+
+    // Reset navigation lock after a short delay
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 100);
+  }, []);
 
   const isLanding = activeSection === 'landing';
 
