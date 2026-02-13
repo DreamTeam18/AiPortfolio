@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProjectDetailModal } from '../components/ProjectDetailModal';
 
@@ -54,6 +54,13 @@ const projects: Project[] = [
 export function ProjectsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Close modal when component unmounts (navigation away from Projects section)
+  useEffect(() => {
+    return () => {
+      setSelectedProject(null);
+    };
+  }, []);
 
   const handlePrevious = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : projects.length - 1));
