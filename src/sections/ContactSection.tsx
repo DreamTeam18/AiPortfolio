@@ -14,7 +14,7 @@ export function ContactSection() {
         <div className="mb-8">
           <a
             href="mailto:siddhant.saxena@gwu.edu"
-            className="flex items-center gap-2 sm:gap-3 text-gray-800 hover:text-blue-600 transition-colors group break-all"
+            className="flex items-center gap-2 sm:gap-3 text-gray-800 hover:text-blue-600 transition-colors group break-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
           >
             <span className="text-base sm:text-lg md:text-xl font-medium">siddhant.saxena@gwu.edu</span>
             <ArrowRight className="h-5 w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
@@ -32,7 +32,7 @@ export function ContactSection() {
               href="https://linkedin.com/in/siddhant-saxena"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Linkedin className="h-5 w-5 flex-shrink-0 text-[#0A66C2]" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
@@ -43,7 +43,7 @@ export function ContactSection() {
             {/* Discord */}
             <a
               href="#"
-              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <MessageCircle className="h-5 w-5 flex-shrink-0 text-[#5865F2]" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
@@ -56,7 +56,7 @@ export function ContactSection() {
               href="https://github.com/siddhant1599"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <svg
                 className="h-5 w-5 flex-shrink-0 text-gray-900"

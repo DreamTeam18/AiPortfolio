@@ -99,7 +99,8 @@ function App() {
             <div className="flex justify-center pt-24 pb-6">
               <button
                 onClick={handleAvatarClick}
-                className="w-20 h-20 rounded-full overflow-hidden cursor-pointer hover:scale-105 transition-transform"
+                className="w-20 h-20 rounded-full overflow-hidden cursor-pointer hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-label="Return to landing page"
               >
                 <img
                   src="/memoji.jpg"

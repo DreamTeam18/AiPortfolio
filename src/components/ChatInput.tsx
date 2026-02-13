@@ -78,7 +78,7 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
 
   return (
     <div className={`w-full max-w-lg ${className}`}>
-      <div className="relative flex items-center rounded-full border border-gray-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-gray-300">
+      <div className="relative flex items-center rounded-full border border-gray-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
         <input
           type="text"
           value={searchQuery}
@@ -87,11 +87,13 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
           placeholder="Ask me anything…"
           className="w-full border-none bg-transparent text-base text-gray-800 placeholder-gray-500 focus:outline-none"
           disabled={isLoading}
+          aria-label="Ask me anything"
         />
         <button
           onClick={handleSendMessage}
           disabled={isLoading || !searchQuery.trim()}
-          className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label="Send message"
         >
           {isLoading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
