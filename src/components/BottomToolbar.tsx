@@ -48,11 +48,13 @@ export function BottomToolbar({
               <button
                 key={`${button.id}-${idx}`}
                 onClick={() => onNavigate(button.id)}
-                className={`flex flex-col items-center justify-center min-w-[60px] flex-shrink-0 px-3 py-2 rounded-lg transition-all ${
+                className={`flex flex-col items-center justify-center min-w-[60px] flex-shrink-0 px-3 py-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   isActive
                     ? 'bg-gray-100 text-gray-900'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
+                aria-label={button.isSmile ? 'Navigate to About Me' : `Navigate to ${button.label}`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 {button.isSmile ? (
                   <span className="text-2xl">{button.label}</span>
