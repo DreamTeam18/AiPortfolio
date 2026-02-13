@@ -28,11 +28,11 @@ export function Header({ onInfoClick }: HeaderProps) {
           href="https://github.com/siddhant1599"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-gray-900 transition-colors"
+          className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-gray-900/90 backdrop-blur-sm rounded-full shadow-sm hover:bg-gray-900 transition-colors"
         >
           <Github className="w-4 h-4 text-white" />
-          <span className="text-sm font-medium text-white">Star</span>
-          <span className="text-sm text-yellow-400">★ 1</span>
+          <span className="text-xs sm:text-sm font-medium text-white">Star</span>
+          <span className="text-xs sm:text-sm text-yellow-400">★ 1</span>
         </a>
       </div>
     </header>
