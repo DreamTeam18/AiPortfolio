@@ -4,7 +4,7 @@ export function MeSection() {
       {/* Two-column layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Left: Photo */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center animate-in fade-in zoom-in-95 duration-500">
           <div className="w-full aspect-square max-w-md rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
             {/* Placeholder for professional photo */}
             <div className="text-gray-500 text-center p-8">
@@ -27,7 +27,7 @@ export function MeSection() {
         </div>
 
         {/* Right: Info */}
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center animate-in fade-in slide-in-from-right-4 duration-500 delay-100">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
             Siddhant Saxena
           </h2>
@@ -41,7 +41,7 @@ export function MeSection() {
       </div>
 
       {/* Tags */}
-      <div className="flex flex-wrap gap-2 justify-center">
+      <div className="flex flex-wrap gap-2 justify-center animate-in fade-in slide-in-from-bottom-2 duration-500 delay-200">
         {['AI', 'Developer', 'GWU', 'Software Engineer', 'SaaS Builder', 'Spring Boot', 'Java'].map((tag) => (
           <span
             key={tag}

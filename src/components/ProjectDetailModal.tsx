@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface Project {
   id: string;
@@ -19,6 +19,16 @@ interface ProjectDetailModalProps {
 export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  // Handle close with animation
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+    // Wait for animation to complete before calling onClose
+    setTimeout(() => {
+      onClose();
+    }, 300); // Match the duration-300 animation
+  }, [onClose]);
 
   // Focus management: Focus the close button when modal opens
   useEffect(() => {
@@ -31,7 +41,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        handleClose();
       }
 
       if (e.key === 'Tab' && dialogRef.current) {
@@ -53,12 +63,14 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [onClose]);
+  }, [handleClose]);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={onClose}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 transition-opacity duration-300 ${
+        isClosing ? 'opacity-0' : 'opacity-100'
+      }`}
+      onClick={handleClose}
       role="presentation"
     >
       <div
@@ -66,13 +78,17 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
         role="dialog"
         aria-labelledby="project-modal-title"
         aria-modal="true"
-        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 max-h-[90vh] overflow-y-auto"
+        className={`relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto transition-all duration-300 ${
+          isClosing
+            ? 'scale-95 opacity-0'
+            : 'scale-100 opacity-100 animate-in fade-in zoom-in-95'
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           ref={closeButtonRef}
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Close modal"
         >

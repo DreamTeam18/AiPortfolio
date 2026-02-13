@@ -86,20 +86,20 @@ function App() {
 
         {/* Landing Page */}
         {isLanding && (
-          <>
+          <div className="animate-in fade-in duration-500">
             <Hero onNavigate={handleNavigate} />
             <Watermark />
-          </>
+          </div>
         )}
 
         {/* Section View */}
         {!isLanding && (
-          <div className="min-h-screen flex flex-col pb-32">
+          <div className="min-h-screen flex flex-col pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Small avatar at top */}
-            <div className="flex justify-center pt-24 pb-6">
+            <div className="flex justify-center pt-24 pb-6 animate-in zoom-in-50 duration-300">
               <button
                 onClick={handleAvatarClick}
-                className="w-20 h-20 rounded-full overflow-hidden cursor-pointer hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-20 h-20 rounded-full overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 aria-label="Return to landing page"
               >
                 <img
@@ -111,20 +111,20 @@ function App() {
             </div>
 
             {/* Section Content */}
-            <div className="flex-1">
-              {activeSection === 'me' && <MeSection />}
-              {activeSection === 'projects' && <ProjectsSection />}
-              {activeSection === 'skills' && <SkillsSection />}
-              {activeSection === 'contact' && <ContactSection />}
+            <div className="flex-1 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-150">
+              {activeSection === 'me' && <MeSection key="me" />}
+              {activeSection === 'projects' && <ProjectsSection key="projects" />}
+              {activeSection === 'skills' && <SkillsSection key="skills" />}
+              {activeSection === 'contact' && <ContactSection key="contact" />}
             </div>
 
             {/* Chat Messages - scrollable area above input */}
-            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10">
+            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
               <ChatMessages messages={chatMessages} />
             </div>
 
             {/* Chat Input - pinned above toolbar */}
-            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10">
+            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
               <ChatInput
                 messages={chatMessages}
                 onAddMessage={addMessage}
@@ -132,12 +132,14 @@ function App() {
             </div>
 
             {/* Bottom Toolbar */}
-            <BottomToolbar
-              activeSection={activeSection as Exclude<Section, 'landing'>}
-              onNavigate={handleNavigate}
-              isCollapsed={isToolbarCollapsed}
-              onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
-            />
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 delay-100">
+              <BottomToolbar
+                activeSection={activeSection as Exclude<Section, 'landing'>}
+                onNavigate={handleNavigate}
+                isCollapsed={isToolbarCollapsed}
+                onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
+              />
+            </div>
           </div>
         )}
       </div>
