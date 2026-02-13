@@ -26,14 +26,14 @@ export function WelcomeModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center mb-6">
             Welcome to AI Portfolio
           </DialogTitle>
         </DialogHeader>
 
-        <div className="bg-gray-100 rounded-lg p-6 space-y-4">
+        <div className="bg-gray-100 rounded-lg p-4 sm:p-6 space-y-4">
           <div>
             <h3 className="text-lg font-bold mb-2">What's this ????</h3>
             <p className="text-gray-700 mb-2">

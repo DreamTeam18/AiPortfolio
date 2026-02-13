@@ -93,7 +93,7 @@ export function Hero({ onNavigate }: HeroProps) {
 
       {/* Search Input */}
       <div className="w-full max-w-lg mb-4">
-        <div className="relative flex items-center rounded-full border border-gray-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-gray-300">
+        <div className="relative flex items-center rounded-full border border-gray-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
           <input
             type="text"
             value={searchQuery}
@@ -102,11 +102,13 @@ export function Hero({ onNavigate }: HeroProps) {
             placeholder="Ask me anything…"
             className="w-full border-none bg-transparent text-base text-gray-800 placeholder-gray-500 focus:outline-none"
             disabled={isLoading}
+            aria-label="Ask me anything"
           />
           <button
             onClick={handleSendMessage}
             disabled={isLoading || !searchQuery.trim()}
-            className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-label="Send message"
           >
             {isLoading ? (
               <Loader2 className="h-5 w-5 animate-spin" />
@@ -152,7 +154,8 @@ export function Hero({ onNavigate }: HeroProps) {
           <button
             key={button.label}
             onClick={() => onNavigate(button.id)}
-            className="aspect-square w-full cursor-pointer rounded-2xl border border-gray-200 bg-white/30 py-8 shadow-none backdrop-blur-lg active:scale-95 md:p-10 hover:bg-gray-50/30 transition-all"
+            className="aspect-square w-full cursor-pointer rounded-2xl border border-gray-200 bg-white/30 py-8 shadow-none backdrop-blur-lg active:scale-95 md:p-10 hover:bg-gray-50/30 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-label={`Navigate to ${button.label}`}
           >
             <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">
               <button.icon size={22} strokeWidth={2} color={button.color} />

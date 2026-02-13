@@ -22,7 +22,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300"
+        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -35,7 +35,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
         </button>
 
         {/* Modal Content */}
-        <div className="p-8">
+        <div className="p-4 sm:p-8">
           {/* Category Label */}
           <p className="text-sm font-medium text-gray-600 mb-2">
             {project.category}
