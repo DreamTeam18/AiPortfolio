@@ -3,7 +3,7 @@ import { ArrowRight, Linkedin, MessageCircle } from 'lucide-react';
 export function ContactSection() {
   return (
     <div className="flex justify-center items-start px-4 py-8 md:py-12">
-      <div className="w-full max-w-2xl bg-gray-50 rounded-3xl p-8 md:p-12">
+      <div className="w-full max-w-2xl bg-[#F5F5F5] rounded-3xl p-8 md:p-12">
         {/* Header with handle */}
         <div className="flex items-center justify-between mb-8 gap-2">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Contacts</h2>

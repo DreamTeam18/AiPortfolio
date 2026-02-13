@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowUp, Loader2 } from 'lucide-react';
 import type { ChatMessage } from '../types/chat';
 
 interface ChatInputProps {
@@ -92,13 +92,13 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
         <button
           onClick={handleSendMessage}
           disabled={isLoading || !searchQuery.trim()}
-          className="flex items-center justify-center rounded-full bg-[#0171E3] p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="flex items-center justify-center rounded-full bg-blue-500 p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Send message"
         >
           {isLoading ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
-            <ArrowRight className="h-5 w-5" />
+            <ArrowUp className="h-5 w-5" />
           )}
         </button>
       </div>
