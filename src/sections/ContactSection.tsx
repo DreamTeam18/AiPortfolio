@@ -5,19 +5,19 @@ export function ContactSection() {
     <div className="flex justify-center items-start px-4 py-8 md:py-12">
       <div className="w-full max-w-2xl bg-gray-50 rounded-3xl p-8 md:p-12">
         {/* Header with handle */}
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Contacts</h2>
-          <span className="text-lg text-gray-600 font-medium">@Siddhant.Saxena</span>
+        <div className="flex items-center justify-between mb-8 gap-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Contacts</h2>
+          <span className="text-sm sm:text-base md:text-lg text-gray-600 font-medium whitespace-nowrap">@Siddhant.Saxena</span>
         </div>
 
         {/* Email */}
         <div className="mb-8">
           <a
             href="mailto:siddhant.saxena@gwu.edu"
-            className="flex items-center gap-3 text-gray-800 hover:text-blue-600 transition-colors group"
+            className="flex items-center gap-2 sm:gap-3 text-gray-800 hover:text-blue-600 transition-colors group break-all"
           >
-            <span className="text-lg md:text-xl font-medium">siddhant.saxena@gwu.edu</span>
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <span className="text-base sm:text-lg md:text-xl font-medium">siddhant.saxena@gwu.edu</span>
+            <ArrowRight className="h-5 w-5 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 
@@ -26,15 +26,15 @@ export function ContactSection() {
           <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
             Social
           </h3>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-3 sm:gap-4">
             {/* LinkedIn */}
             <a
               href="https://linkedin.com/in/siddhant-saxena"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
             >
-              <Linkedin className="h-5 w-5 text-[#0A66C2]" />
+              <Linkedin className="h-5 w-5 flex-shrink-0 text-[#0A66C2]" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
                 LinkedIn
               </span>
@@ -43,9 +43,9 @@ export function ContactSection() {
             {/* Discord */}
             <a
               href="#"
-              className="flex items-center gap-3 px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
             >
-              <MessageCircle className="h-5 w-5 text-[#5865F2]" />
+              <MessageCircle className="h-5 w-5 flex-shrink-0 text-[#5865F2]" />
               <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">
                 Discord
               </span>
@@ -56,10 +56,10 @@ export function ContactSection() {
               href="https://github.com/siddhant1599"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group"
+              className="flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 bg-white rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all group min-w-0"
             >
               <svg
-                className="h-5 w-5 text-gray-900"
+                className="h-5 w-5 flex-shrink-0 text-gray-900"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
