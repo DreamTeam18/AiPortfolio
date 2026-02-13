@@ -154,7 +154,7 @@ export function Hero({ onNavigate }: HeroProps) {
           <button
             key={button.label}
             onClick={() => onNavigate(button.id)}
-            className="aspect-square w-full cursor-pointer rounded-2xl border border-gray-200 bg-white/30 py-8 shadow-none backdrop-blur-lg active:scale-95 md:p-10 hover:bg-gray-50/30 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="aspect-square w-full cursor-pointer rounded-2xl border border-gray-200 bg-white/30 py-8 shadow-none backdrop-blur-lg active:scale-105 md:p-10 hover:bg-gray-50/30 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label={`Navigate to ${button.label}`}
           >
             <div className="flex h-full flex-col items-center justify-center gap-1 text-gray-700">

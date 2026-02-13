@@ -7,7 +7,7 @@ export function MeSection() {
         <div className="flex items-center justify-center">
           <div className="w-full aspect-square max-w-md rounded-2xl overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
             {/* Placeholder for professional photo */}
-            <div className="text-gray-400 text-center p-8">
+            <div className="text-gray-500 text-center p-8">
               <svg
                 className="w-32 h-32 mx-auto mb-4"
                 fill="none"

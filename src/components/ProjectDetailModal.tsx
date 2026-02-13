@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 interface Project {
   id: string;
@@ -16,17 +17,61 @@ interface ProjectDetailModalProps {
 }
 
 export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Focus management: Focus the close button when modal opens
+  useEffect(() => {
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
+    }
+  }, []);
+
+  // Focus trap: Keep focus within modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+
+      if (e.key === 'Tab' && dialogRef.current) {
+        const focusableElements = dialogRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement?.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement?.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
+      role="presentation"
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-labelledby="project-modal-title"
+        aria-modal="true"
         className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
+          ref={closeButtonRef}
           onClick={onClose}
           className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black text-white hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Close modal"
@@ -42,7 +87,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
           </p>
 
           {/* Project Title */}
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          <h2 id="project-modal-title" className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
             {project.title}
           </h2>
 

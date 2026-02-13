@@ -20,7 +20,7 @@ const projects: Project[] = [
     year: '2021-2025',
     description: 'A comprehensive hotel booking system built with Spring Boot REST API, featuring resilience patterns with Resilience4j, PostgreSQL database, JWT authentication, Stripe payment integration, and dynamic pricing algorithms. This backend service handles millions of booking requests with high availability and fault tolerance.',
     technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Stripe', 'JWT', 'Resilience4j'],
-    gradient: 'from-orange-400 via-red-400 to-pink-400'
+    gradient: 'from-orange-600 via-red-600 to-pink-600'
   },
   {
     id: 'laughgpt',
@@ -29,7 +29,7 @@ const projects: Project[] = [
     year: '2024',
     description: 'A fullstack application that integrates multiple AI models with a single prompt interface. Built with React and TypeScript on the frontend and Spring Boot with Java on the backend, this app demonstrates seamless integration of various AI APIs to provide intelligent responses.',
     technologies: ['React', 'TypeScript', 'Spring Boot', 'Java', 'AI APIs'],
-    gradient: 'from-green-400 via-teal-400 to-cyan-400'
+    gradient: 'from-green-600 via-teal-600 to-cyan-600'
   },
   {
     id: 'kafka-demo',
@@ -38,7 +38,7 @@ const projects: Project[] = [
     year: '2024',
     description: 'A microservices architecture demonstration featuring Apache Kafka configuration with Spring Boot, Schema Registry integration, and multiple services including notification-service and user-service. This project showcases event-driven architecture patterns with Docker containerization and Confluent platform.',
     technologies: ['Java', 'Spring Boot', 'Apache Kafka', 'Docker', 'Confluent'],
-    gradient: 'from-purple-400 via-violet-400 to-indigo-400'
+    gradient: 'from-purple-600 via-violet-600 to-indigo-600'
   },
   {
     id: 'docker-repo',
