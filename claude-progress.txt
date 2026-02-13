@@ -1626,3 +1626,54 @@ CURRENT STATUS:
 
 ---
 
+
+
+===========================================
+SESSION: Feature #36 - Chat Message Persistence
+DATE: 2026-02-13
+===========================================
+
+FEATURE COMPLETED: #36 - Chat messages persist when switching between sections
+
+ACCOMPLISHMENTS:
+✅ Created ChatMessage type interface (src/types/chat.ts)
+✅ Implemented ChatMessages component with auto-scroll behavior
+✅ Lifted chat state to App.tsx level for persistence across sections
+✅ Updated ChatInput to accept messages array and onAddMessage callback
+✅ Chat messages now properly persist when switching sections
+✅ Fixed vite config: changed host from 127.0.0.1 to 0.0.0.0
+✅ TypeScript compilation: PASSED (1779 modules, 320.52 kB)
+✅ Type checking: PASSED (tsc --noEmit)
+✅ ESLint: PASSED (no errors)
+✅ Mock data patterns: NONE FOUND
+✅ Dev server: RUNNING on port 5173
+
+IMPLEMENTATION DETAILS:
+- Chat state: chatMessages useState in App.tsx persists across sections
+- ChatMessage type: id, content, role (user/assistant), timestamp
+- ChatMessages component: displays all messages with auto-scroll
+- ChatInput: creates full message objects, calls onAddMessage callback
+- Fixed positioning ensures chat visible in all section views
+- State shared between display (ChatMessages) and input (ChatInput)
+
+MESSAGE PERSISTENCE FLOW:
+1. User sends message in Me section
+2. Message added to chatMessages array in App.tsx
+3. User switches to Projects section
+4. activeSection changes but chatMessages array unchanged
+5. ChatMessages component still receives same array
+6. All messages display correctly in new section
+
+FEATURE REQUIREMENTS VERIFIED:
+✅ Navigate to Me section and send message
+✅ Navigate to Projects - messages still visible
+✅ Navigate to Skills - messages persist
+✅ Return to Me section - full history intact
+✅ Chat state maintained across all section switches
+
+CURRENT STATUS:
+- Features passing: 37/70 (52.9%)
+- Feature #36 marked as PASSING
+
+---
+
