@@ -129,7 +129,7 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 text-sm text-gray-700 bg-gray-200 rounded-full"
+                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
                   >
                     {tech}
                   </span>

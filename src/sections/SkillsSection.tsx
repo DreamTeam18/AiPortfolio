@@ -20,7 +20,7 @@ export function SkillsSection() {
             {['HTML', 'CSS', 'JavaScript/TypeScript', 'Tailwind CSS', 'Bootstrap', 'Next.js', 'React', 'Vercel AI SDK', 'GSAP'].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>
@@ -38,7 +38,7 @@ export function SkillsSection() {
             {['Java', 'Python', 'C#', 'Kotlin', 'Spring Boot', 'Angular', 'NodeJS', '.NET 4.8'].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>
@@ -56,7 +56,7 @@ export function SkillsSection() {
             {['SQL', 'MongoDB', 'Neo4j', 'Redis', 'PostgreSQL'].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>
@@ -74,7 +74,7 @@ export function SkillsSection() {
             {['Git', 'GitHub', 'Docker', 'AWS', 'Azure Services', 'GCP', 'Maven', 'Postman', 'PowerBI'].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>
@@ -104,7 +104,7 @@ export function SkillsSection() {
             ].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>
@@ -122,7 +122,7 @@ export function SkillsSection() {
             {['Communication', 'Problem-Solving', 'Adaptability', 'Learning Agility', 'Teamwork', 'Creativity', 'Focus'].map((skill) => (
               <span
                 key={skill}
-                className="px-4 py-2 bg-gray-50 text-gray-800 text-sm font-medium rounded-full border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
               >
                 {skill}
               </span>

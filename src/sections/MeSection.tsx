@@ -45,7 +45,7 @@ export function MeSection() {
         {['AI', 'Developer', 'GWU', 'Software Engineer', 'SaaS Builder', 'Spring Boot', 'Java'].map((tag) => (
           <span
             key={tag}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-full"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
           >
             {tag}
           </span>
