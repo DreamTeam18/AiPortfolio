@@ -111,7 +111,8 @@ export function ProjectsSection() {
             >
               <button
                 onClick={() => setSelectedProject(project)}
-                className="w-full h-64 rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 active:scale-95"
+                className="w-full h-64 rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-label={`View details for ${project.title}`}
               >
                 <div className={`w-full h-full bg-gradient-to-br ${project.gradient} p-6 flex flex-col justify-end`}>
                   <div className="text-left text-white">
@@ -133,14 +134,14 @@ export function ProjectsSection() {
       <div className="flex justify-center gap-4">
         <button
           onClick={handlePrevious}
-          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
+          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Previous project"
         >
           <ChevronLeft className="w-5 h-5 text-gray-700" />
         </button>
         <button
           onClick={handleNext}
-          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors"
+          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Next project"
         >
           <ChevronRight className="w-5 h-5 text-gray-700" />

@@ -71,7 +71,7 @@ export function WelcomeModal({
             If you love it, please share it! Feedback is always welcome.{' '}
             <button
               onClick={onContactClick}
-              className="text-black font-medium underline hover:no-underline"
+              className="text-black font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
             >
               Contact me
             </button>
