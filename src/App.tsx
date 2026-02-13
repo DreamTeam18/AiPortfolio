@@ -10,6 +10,8 @@ import { SkillsSection } from './sections/SkillsSection';
 import { ContactSection } from './sections/ContactSection';
 import { BottomToolbar } from './components/BottomToolbar';
 import { ChatInput } from './components/ChatInput';
+import { ChatMessages } from './components/ChatMessages';
+import type { ChatMessage } from './types/chat';
 
 type Section = 'landing' | 'me' | 'projects' | 'skills' | 'contact';
 
@@ -17,6 +19,7 @@ function App() {
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<Section>('landing');
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const isNavigatingRef = useRef(false);
 
   const handleStartChatting = () => {
@@ -61,6 +64,10 @@ function App() {
     setTimeout(() => {
       isNavigatingRef.current = false;
     }, 100);
+  }, []);
+
+  const addMessage = useCallback((message: ChatMessage) => {
+    setChatMessages(prev => [...prev, message]);
   }, []);
 
   const isLanding = activeSection === 'landing';
@@ -110,9 +117,17 @@ function App() {
               {activeSection === 'contact' && <ContactSection />}
             </div>
 
+            {/* Chat Messages - scrollable area above input */}
+            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10">
+              <ChatMessages messages={chatMessages} />
+            </div>
+
             {/* Chat Input - pinned above toolbar */}
             <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10">
-              <ChatInput />
+              <ChatInput
+                messages={chatMessages}
+                onAddMessage={addMessage}
+              />
             </div>
 
             {/* Bottom Toolbar */}

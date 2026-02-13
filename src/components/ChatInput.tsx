@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import type { ChatMessage } from '../types/chat';
 
 interface ChatInputProps {
   className?: string;
+  messages: ChatMessage[];
+  onAddMessage: (message: ChatMessage) => void;
 }
 
-export function ChatInput({ className = '' }: ChatInputProps) {
+export function ChatInput({ className = '', messages, onAddMessage }: ChatInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,10 +16,19 @@ export function ChatInput({ className = '' }: ChatInputProps) {
   const handleSendMessage = async () => {
     if (!searchQuery.trim()) return;
 
-    const userMessage = searchQuery;
+    const userMessageText = searchQuery;
     setSearchQuery('');
     setIsLoading(true);
     setError(null);
+
+    // Create and add user message immediately
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      content: userMessageText,
+      role: 'user',
+      timestamp: new Date(),
+    };
+    onAddMessage(userMessage);
 
     try {
       const response = await fetch('http://localhost:3001/api/chat', {
@@ -25,8 +37,11 @@ export function ChatInput({ className = '' }: ChatInputProps) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: userMessage,
-          history: [],
+          message: userMessageText,
+          history: [...messages, userMessage].map(m => ({
+            role: m.role,
+            content: m.content
+          })),
         }),
       });
 
@@ -35,11 +50,21 @@ export function ChatInput({ className = '' }: ChatInputProps) {
         throw new Error(errorData.error || 'Failed to get response');
       }
 
-      await response.json();
-      // TODO: Handle response (show in chat UI)
+      const data = await response.json();
+
+      // Add assistant response as a message
+      if (data.response) {
+        const assistantMessage: ChatMessage = {
+          id: `assistant-${Date.now()}`,
+          content: data.response,
+          role: 'assistant',
+          timestamp: new Date(),
+        };
+        onAddMessage(assistantMessage);
+      }
     } catch (err) {
       console.error('Chat error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to send message');
+      setError(err instanceof Error ? err.message : 'Backend not running. Message saved but no AI response.');
     } finally {
       setIsLoading(false);
     }
