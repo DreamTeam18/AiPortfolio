@@ -7,7 +7,7 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 export default defineConfig({
   base: './',
   server: {
-    port: 5173,
+    port: 5175,
     host: '127.0.0.1',
   },
   plugins: [inspectAttr(), react()],
