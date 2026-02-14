@@ -24,7 +24,7 @@ export function BottomToolbar({
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-gray-200">
+    <div className="fixed bottom-0 left-0 right-0 z-20 bg-white/90 backdrop-blur-sm">
       {/* Toggle Button */}
       <div className="flex justify-center py-2">
         <button
