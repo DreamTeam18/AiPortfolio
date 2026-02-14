@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { ArrowUp, Loader2 } from 'lucide-react';
 import type { ChatMessage } from '../types/chat';
+import { detectNavigationIntent, getNavigationMessage, type Section } from '../utils/intentDetection';
 
 interface ChatInputProps {
   className?: string;
   messages: ChatMessage[];
   onAddMessage: (message: ChatMessage) => void;
+  onNavigate?: (section: Section) => void;
 }
 
-export function ChatInput({ className = '', messages, onAddMessage }: ChatInputProps) {
+export function ChatInput({ className = '', messages, onAddMessage, onNavigate }: ChatInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,8 +20,6 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
 
     const userMessageText = searchQuery;
     setSearchQuery('');
-    setIsLoading(true);
-    setError(null);
 
     // Create and add user message immediately
     const userMessage: ChatMessage = {
@@ -29,6 +29,33 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
       timestamp: new Date(),
     };
     onAddMessage(userMessage);
+
+    // Check for navigation intent BEFORE calling the API
+    const detectedSection = detectNavigationIntent(userMessageText);
+
+    if (detectedSection && onNavigate) {
+      // Add navigation message
+      const navMessage = getNavigationMessage(detectedSection);
+      const assistantMessage: ChatMessage = {
+        id: `assistant-${Date.now()}`,
+        content: navMessage,
+        role: 'assistant',
+        timestamp: new Date(),
+      };
+      onAddMessage(assistantMessage);
+
+      // Navigate to the detected section
+      // Use a small delay so the user can see the response before navigation
+      setTimeout(() => {
+        onNavigate(detectedSection);
+      }, 500);
+
+      return;
+    }
+
+    // No navigation intent detected, proceed with normal API call
+    setIsLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('/api/chat', {

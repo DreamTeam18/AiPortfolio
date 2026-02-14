@@ -8,12 +8,13 @@ import { MeSection } from './sections/MeSection';
 import { ProjectsSection } from './sections/ProjectsSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { ContactSection } from './sections/ContactSection';
+import { ChatSection } from './sections/ChatSection';
 import { BottomToolbar } from './components/BottomToolbar';
 import { ChatInput } from './components/ChatInput';
 import { ChatMessages } from './components/ChatMessages';
 import type { ChatMessage } from './types/chat';
 
-type Section = 'landing' | 'me' | 'projects' | 'skills' | 'contact';
+type Section = 'landing' | 'me' | 'projects' | 'skills' | 'contact' | 'chat';
 
 function App() {
   const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState(false);
@@ -70,6 +71,67 @@ function App() {
     setChatMessages(prev => [...prev, message]);
   }, []);
 
+  const handleChatStart = useCallback(async (messageText: string) => {
+    // Transition to chat section
+    setActiveSection('chat');
+
+    // Create user message
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      content: messageText,
+      role: 'user',
+      timestamp: new Date(),
+    };
+
+    // Add user message to chat
+    setChatMessages(prev => [...prev, userMessage]);
+
+    // Call backend API
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: messageText,
+          history: [userMessage].map(m => ({
+            role: m.role,
+            content: m.content
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get response');
+      }
+
+      const data = await response.json();
+
+      // Add assistant response
+      if (data.message) {
+        const assistantMessage: ChatMessage = {
+          id: `assistant-${Date.now()}`,
+          content: data.message,
+          role: 'assistant',
+          timestamp: new Date(),
+        };
+        setChatMessages(prev => [...prev, assistantMessage]);
+      }
+    } catch (err) {
+      console.error('Chat error:', err);
+      // Add error message to chat
+      const errorMessage: ChatMessage = {
+        id: `error-${Date.now()}`,
+        content: 'Sorry, I encountered an error processing your message. Please try again.',
+        role: 'assistant',
+        timestamp: new Date(),
+      };
+      setChatMessages(prev => [...prev, errorMessage]);
+    }
+  }, []);
+
   const isLanding = activeSection === 'landing';
 
   return (
@@ -87,7 +149,7 @@ function App() {
         {/* Landing Page */}
         {isLanding && (
           <div className="animate-in fade-in duration-500">
-            <Hero onNavigate={handleNavigate} />
+            <Hero onNavigate={handleNavigate} onChatStart={handleChatStart} />
             <Watermark />
           </div>
         )}
@@ -116,25 +178,31 @@ function App() {
               {activeSection === 'projects' && <ProjectsSection key="projects" />}
               {activeSection === 'skills' && <SkillsSection key="skills" />}
               {activeSection === 'contact' && <ContactSection key="contact" />}
+              {activeSection === 'chat' && <ChatSection key="chat" messages={chatMessages} onAddMessage={addMessage} onNavigate={handleNavigate} />}
             </div>
 
-            {/* Chat Messages - scrollable area above input */}
-            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-              <ChatMessages messages={chatMessages} />
-            </div>
+            {/* Chat Messages - scrollable area above input (hidden in chat section) */}
+            {activeSection !== 'chat' && (
+              <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+                <ChatMessages messages={chatMessages} />
+              </div>
+            )}
 
-            {/* Chat Input - pinned above toolbar */}
-            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-              <ChatInput
-                messages={chatMessages}
-                onAddMessage={addMessage}
-              />
-            </div>
+            {/* Chat Input - pinned above toolbar (hidden in chat section) */}
+            {activeSection !== 'chat' && (
+              <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+                <ChatInput
+                  messages={chatMessages}
+                  onAddMessage={addMessage}
+                  onNavigate={handleNavigate}
+                />
+              </div>
+            )}
 
             {/* Bottom Toolbar */}
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 delay-100">
               <BottomToolbar
-                activeSection={activeSection as Exclude<Section, 'landing'>}
+                activeSection={activeSection === 'chat' ? 'me' : activeSection as Exclude<Section, 'landing' | 'chat'>}
                 onNavigate={handleNavigate}
                 isCollapsed={isToolbarCollapsed}
                 onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}

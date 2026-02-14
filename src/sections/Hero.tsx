@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { ArrowUp, User, FolderKanban, Layers, Mail, Loader2 } from 'lucide-react';
+import { detectNavigationIntent } from '../utils/intentDetection';
 
 type Section = 'me' | 'projects' | 'skills' | 'contact';
 
 interface HeroProps {
   onNavigate: (section: Section) => void;
+  onChatStart: (message: string) => void;
 }
 
-export function Hero({ onNavigate }: HeroProps) {
+export function Hero({ onNavigate, onChatStart }: HeroProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [chatHistory, setChatHistory] = useState<Array<{ role: string; content: string }>>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const navButtons = [
     { id: 'me' as Section, icon: User, label: 'Me', color: '#329696' },
@@ -20,49 +20,31 @@ export function Hero({ onNavigate }: HeroProps) {
     { id: 'contact' as Section, icon: Mail, label: 'Contact', color: '#C19433' },
   ];
 
-  const handleSendMessage = async () => {
-    if (!searchQuery.trim()) return;
+  const handleSendMessage = () => {
+    if (!searchQuery.trim() || isLoading) return;
 
     const userMessage = searchQuery;
     setSearchQuery('');
-    setIsLoading(true);
-    setError(null);
 
-    // Add user message to chat history
-    const newHistory = [...chatHistory, { role: 'user', content: userMessage }];
-    setChatHistory(newHistory);
+    // Check for navigation intent BEFORE transitioning to chat
+    const detectedSection = detectNavigationIntent(userMessage);
 
-    try {
-      const response = await fetch('http://localhost:3001/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userMessage,
-          history: chatHistory,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get response');
-      }
-
-      const data = await response.json();
-
-      // Add bot response to chat history
-      setChatHistory([...newHistory, { role: 'assistant', content: data.message }]);
-    } catch (err) {
-      console.error('Chat error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to send message');
-    } finally {
-      setIsLoading(false);
+    if (detectedSection) {
+      // Navigate to the detected section directly with a brief loading state
+      setIsLoading(true);
+      setTimeout(() => {
+        onNavigate(detectedSection);
+        setIsLoading(false);
+      }, 300);
+      return;
     }
+
+    // No navigation intent detected, transition to chat screen
+    onChatStart(userMessage);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isLoading) {
+    if (e.key === 'Enter') {
       handleSendMessage();
     }
   };
@@ -117,35 +99,6 @@ export function Hero({ onNavigate }: HeroProps) {
             )}
           </button>
         </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="mt-2 text-sm text-red-600 text-center">
-            {error}
-          </div>
-        )}
-
-        {/* Chat Messages */}
-        {chatHistory.length > 0 && (
-          <div className="mt-6 max-h-96 overflow-y-auto space-y-4 bg-white/50 backdrop-blur-lg rounded-2xl p-4 border border-gray-200">
-            {chatHistory.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                    msg.role === 'user'
-                      ? 'bg-[#0171E3] text-white'
-                      : 'bg-gray-100 text-gray-800'
-                  }`}
-                >
-                  <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
       {/* Navigation Buttons */}
