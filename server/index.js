@@ -183,7 +183,11 @@ Response:
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' });
+  res.json({
+    status: 'ok',
+    message: 'Server is running',
+    apiKeyConfigured: !!process.env.OPENROUTER_API_KEY
+  });
 });
 
 // Chat endpoint
@@ -254,7 +258,19 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+// Global error handlers
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise);
+  console.error('   Reason:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error);
+  process.exit(1);
+});
+
+// Start server with error handling
+const server = app.listen(PORT, () => {
   console.log(`\n🚀 Server running on http://localhost:${PORT}`);
   console.log(`💬 Chat endpoint: http://localhost:${PORT}/api/chat`);
   console.log(`🏥 Health check: http://localhost:${PORT}/api/health\n`);
@@ -262,5 +278,22 @@ app.listen(PORT, () => {
   if (!process.env.OPENROUTER_API_KEY) {
     console.warn('⚠️  WARNING: OPENROUTER_API_KEY not found in environment variables');
     console.warn('   Please create a .env file with your OpenRouter API key\n');
+  }
+});
+
+// Handle server startup errors
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`\n❌ ERROR: Port ${PORT} is already in use.`);
+    console.error(`\n📋 To fix this issue:`);
+    console.error(`   1. Kill the existing process using port ${PORT}:`);
+    console.error(`      macOS/Linux: lsof -ti:${PORT} | xargs kill -9`);
+    console.error(`      Windows: netstat -ano | findstr :${PORT}, then taskkill /PID <PID> /F`);
+    console.error(`   2. OR change the PORT in your .env file to a different port`);
+    console.error(`   3. Then restart the server\n`);
+    process.exit(1);
+  } else {
+    console.error('\n❌ Server error:', error);
+    process.exit(1);
   }
 });
