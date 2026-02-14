@@ -3487,3 +3487,45 @@ ACCOMPLISHMENTS:
 CURRENT STATUS:
 - Features passing: 86/93 (92.5%)
 - Milestone: Chat UI now shows only last 2 conversations for clean UX
+
+===========================================
+SESSION: Feature #91 - Restyle Toolbar Buttons to Horizontal Pill Design
+DATE: 2026-02-14
+===========================================
+FEATURE COMPLETED: #91 - Restyle toolbar buttons to horizontal pill-shaped design
+
+ACCOMPLISHMENTS:
+✅ Verified BottomToolbar.tsx already has correct horizontal pill-shaped design
+✅ Buttons use flex-row items-center gap-2 (horizontal layout, not vertical)
+✅ Pill shape: rounded-full with border border-gray-200
+✅ Active state: border-blue-500 ring-2 ring-blue-500 (border-based, not bg-gray-100)
+✅ Button sizing: h-10 px-4 py-2
+✅ Smiley button: circular w-10 h-10 rounded-full with emoji only
+✅ Colored icons preserved per section
+✅ Labels: text-sm font-medium (not text-xs)
+✅ TypeScript: PASSED
+✅ Build: SUCCESS (1780 modules, 328.66 kB)
+✅ ESLint: PASSED
+✅ Feature #91 marked as PASSING
+
+===========================================
+SESSION: Feature #92 - Fix Page Transition Animations
+DATE: 2026-02-14
+===========================================
+
+FEATURE COMPLETED: #92 - Fix page transition animations to be smooth and jitter-free
+
+ACCOMPLISHMENTS:
+✅ Restructured App.tsx to separate PERSISTENT shell (avatar, toolbar, chat input) from CHANGING content
+✅ Persistent elements no longer re-animate on section-to-section navigation
+✅ Only the content area re-animates with a simple fade-in (duration-300, no slide)
+✅ Removed cascading animation delays (delay-100, delay-150, delay-200, delay-300) from persistent elements
+✅ Increased navigation lock timeout from 100ms to 500ms to match animation duration
+✅ Shell uses CSS transition-opacity for smooth landing->section entry
+✅ key={activeSection} on content wrapper ensures React only re-renders content area
+✅ TypeScript compilation: PASSED
+✅ Build: SUCCESS (1780 modules, 327.96 kB)
+✅ ESLint: PASSED
+✅ Mock data patterns: NONE FOUND
+✅ Feature #92 marked as PASSING
+
