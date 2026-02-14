@@ -155,7 +155,7 @@ function App() {
         )}
 
         {/* Section View */}
-        {!isLanding && (
+        {!isLanding && activeSection !== 'chat' && (
           <div className="min-h-screen flex flex-col pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Small avatar at top */}
             <div className="flex justify-center pt-24 pb-6 animate-in zoom-in-50 duration-300">
@@ -178,31 +178,52 @@ function App() {
               {activeSection === 'projects' && <ProjectsSection key="projects" />}
               {activeSection === 'skills' && <SkillsSection key="skills" />}
               {activeSection === 'contact' && <ContactSection key="contact" />}
-              {activeSection === 'chat' && <ChatSection key="chat" messages={chatMessages} onAddMessage={addMessage} onNavigate={handleNavigate} />}
             </div>
 
-            {/* Chat Messages - scrollable area above input (hidden in chat section) */}
-            {activeSection !== 'chat' && (
-              <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-                <ChatMessages messages={chatMessages} />
-              </div>
-            )}
+            {/* Chat Messages - scrollable area above input */}
+            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
+              <ChatMessages messages={chatMessages} />
+            </div>
 
-            {/* Chat Input - pinned above toolbar (hidden in chat section) */}
-            {activeSection !== 'chat' && (
-              <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
-                <ChatInput
-                  messages={chatMessages}
-                  onAddMessage={addMessage}
-                  onNavigate={handleNavigate}
-                />
-              </div>
-            )}
+            {/* Chat Input - pinned above toolbar */}
+            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+              <ChatInput
+                messages={chatMessages}
+                onAddMessage={addMessage}
+                onNavigate={handleNavigate}
+              />
+            </div>
 
             {/* Bottom Toolbar */}
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 delay-100">
               <BottomToolbar
-                activeSection={activeSection === 'chat' ? 'me' : activeSection as Exclude<Section, 'landing' | 'chat'>}
+                activeSection={activeSection as Exclude<Section, 'landing' | 'chat'>}
+                onNavigate={handleNavigate}
+                isCollapsed={isToolbarCollapsed}
+                onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Dedicated Chat Screen */}
+        {!isLanding && activeSection === 'chat' && (
+          <div className="min-h-screen flex flex-col pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Chat Section - self-contained with avatar, messages, and input */}
+            <div className="flex-1 flex flex-col pt-20 pb-32">
+              <ChatSection
+                key="chat"
+                messages={chatMessages}
+                onAddMessage={addMessage}
+                onNavigate={handleNavigate}
+                onAvatarClick={handleAvatarClick}
+              />
+            </div>
+
+            {/* Bottom Toolbar */}
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 delay-100">
+              <BottomToolbar
+                activeSection="me"
                 onNavigate={handleNavigate}
                 isCollapsed={isToolbarCollapsed}
                 onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
