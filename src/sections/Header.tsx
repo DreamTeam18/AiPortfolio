@@ -6,10 +6,10 @@ interface HeaderProps {
 
 export function Header({ onInfoClick }: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 bg-white/70 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 pointer-events-none">
       {/* Left button - Looking for a talent? */}
       <button
-        className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         aria-label="Looking for a talent?"
       >
         <Circle className="w-2 h-2 fill-green-500 text-green-500" />
@@ -17,7 +17,7 @@ export function Header({ onInfoClick }: HeaderProps) {
       </button>
 
       {/* Right side buttons */}
-      <div className="flex items-center gap-3">
+      <div className="pointer-events-auto flex items-center gap-3">
         {/* Info button */}
         <button
           onClick={onInfoClick}
