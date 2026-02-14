@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import type { ChatMessage } from '../types/chat';
 
 interface ChatSectionProps {
@@ -8,6 +8,9 @@ interface ChatSectionProps {
 
 export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Display all messages in the scrollable chat area
+  const visibleMessages = useMemo(() => messages, [messages]);
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -34,7 +37,7 @@ export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
       {/* Chat messages area - scrollable, taking up available space, with bottom padding for fixed elements */}
       <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-48">
         <div className="max-w-3xl mx-auto">
-          {messages.slice(-4).map((message) => (
+          {visibleMessages.map((message) => (
             <div key={message.id} className="mb-4">
               {message.role === 'assistant' ? (
                 // Assistant messages: plain left-aligned text paragraphs (NOT bubbles)

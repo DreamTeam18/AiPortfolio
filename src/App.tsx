@@ -203,19 +203,26 @@ function App() {
 
         {/* Dedicated Chat Screen */}
         {!isLanding && activeSection === 'chat' && (
-          <div className="min-h-screen flex flex-col pb-32 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Chat Section - self-contained with avatar, messages, and input */}
-            <div className="flex-1 flex flex-col pt-20 pb-32">
+          <div className="min-h-screen flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Chat Section - avatar and scrollable messages area */}
+            <div className="flex-1 flex flex-col pt-20">
               <ChatSection
                 key="chat"
-                messages={chatMessages}
-                onAddMessage={addMessage}
-                onNavigate={handleNavigate}
+                messages={chatMessages.slice(-4)}
                 onAvatarClick={handleAvatarClick}
               />
             </div>
 
-            {/* Bottom Toolbar */}
+            {/* Chat Input - fixed at bottom, above toolbar, matching non-chat sections */}
+            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
+              <ChatInput
+                messages={chatMessages}
+                onAddMessage={addMessage}
+                onNavigate={handleNavigate}
+              />
+            </div>
+
+            {/* Bottom Toolbar - fixed at very bottom */}
             <div className="animate-in fade-in slide-in-from-bottom-8 duration-500 delay-100">
               <BottomToolbar
                 activeSection="me"
