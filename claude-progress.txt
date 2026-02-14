@@ -3076,3 +3076,14 @@ ACCOMPLISHMENTS:
 
 CURRENT STATUS: Features passing: 72/75 (96.0%)
 ---
+
+===========================================
+SESSION: Feature #72 - Replace System Prompt
+DATE: 2026-02-13
+===========================================
+
+FEATURE COMPLETED: #72 - Replace system prompt with SystemPromptPortfoliosite.txt content
+
+Changed File: server/index.js - Replaced SYSTEM_PROMPT with strict scoped version
+Features passing: 71/75 (94.7%)
+---
