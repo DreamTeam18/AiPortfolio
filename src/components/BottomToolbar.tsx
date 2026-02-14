@@ -49,31 +49,43 @@ export function BottomToolbar({
 
       {/* Toolbar Buttons */}
       {!isCollapsed && (
-        <div id="toolbar-buttons" className="flex items-center justify-center sm:justify-center gap-2 px-4 pb-4 overflow-x-auto scrollbar-hide">
+        <div id="toolbar-buttons" className="flex items-center justify-center gap-3 px-4 pb-4 overflow-x-auto scrollbar-hide">
           {buttons.map((button, idx) => {
             const isActive = button.id === activeSection;
             const Icon = button.icon;
+
+            if (button.isSmile) {
+              return (
+                <button
+                  key={`${button.id}-${idx}`}
+                  onClick={() => onNavigate(button.id)}
+                  className={`flex items-center justify-center w-10 h-10 rounded-full border flex-shrink-0 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    isActive
+                      ? 'border-blue-500 ring-2 ring-blue-500'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  aria-label="Navigate to About Me"
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span className="text-lg">😊</span>
+                </button>
+              );
+            }
 
             return (
               <button
                 key={`${button.id}-${idx}`}
                 onClick={() => onNavigate(button.id)}
-                className={`flex flex-col items-center justify-center min-w-[60px] flex-shrink-0 px-3 py-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`flex flex-row items-center gap-2 h-10 px-4 py-2 rounded-full border flex-shrink-0 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                   isActive
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-600 hover:bg-gray-50'
+                    ? 'border-blue-500 ring-2 ring-blue-500 text-gray-900'
+                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
                 }`}
-                aria-label={button.isSmile ? 'Navigate to About Me' : `Navigate to ${button.label}`}
+                aria-label={`Navigate to ${button.label}`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                {button.isSmile ? (
-                  <span className="text-2xl">{button.label}</span>
-                ) : (
-                  <>
-                    <Icon size={20} strokeWidth={2} color={button.color} />
-                    <span className="text-xs mt-1">{button.label}</span>
-                  </>
-                )}
+                <Icon size={18} strokeWidth={2} color={button.color} />
+                <span className="text-sm font-medium">{button.label}</span>
               </button>
             );
           })}

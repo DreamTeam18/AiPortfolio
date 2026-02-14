@@ -3466,3 +3466,24 @@ ACCOMPLISHMENTS:
 - Added pb-48 padding to prevent overlap
 - TypeScript: PASSED, Build: SUCCESS, ESLint: PASSED
 - Feature #88 marked as PASSING
+
+---
+
+===========================================
+SESSION: Feature #87 - Limit Visible Chat Messages
+DATE: 2026-02-14
+===========================================
+FEATURE COMPLETED: #87 - Limit visible chat messages to only the last 2 conversations (4 messages)
+
+ACCOMPLISHMENTS:
+- Modified App.tsx to pass chatMessages.slice(-4) to ChatSection for display
+- Modified ChatMessages.tsx to slice(-4) before rendering
+- Full message history still sent to backend API via ChatInput for LLM context
+- TypeScript compilation: PASSED
+- Build: SUCCESS (1780 modules, 328.28 kB)
+- Mock data patterns: NONE FOUND
+- Feature #87 marked as PASSING
+
+CURRENT STATUS:
+- Features passing: 86/93 (92.5%)
+- Milestone: Chat UI now shows only last 2 conversations for clean UX
