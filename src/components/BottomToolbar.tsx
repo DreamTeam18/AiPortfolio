@@ -1,4 +1,4 @@
-import { User, FolderKanban, Layers, Mail, Smile } from 'lucide-react';
+import { User, FolderKanban, Layers, Mail, Smile, ChevronDown, ChevronUp } from 'lucide-react';
 
 type Section = 'me' | 'projects' | 'skills' | 'contact';
 
@@ -26,14 +26,24 @@ export function BottomToolbar({
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20 bg-white/90 backdrop-blur-sm">
       {/* Toggle Button */}
-      <div className="flex justify-center py-2">
+      <div className="flex justify-center py-3 mb-1">
         <button
           onClick={onToggleCollapse}
-          className="text-xs text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
+          className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
           aria-expanded={!isCollapsed}
           aria-controls="toolbar-buttons"
         >
-          {isCollapsed ? 'Show quick questions' : 'Hide quick questions'}
+          {isCollapsed ? (
+            <>
+              <ChevronUp className="w-4 h-4 text-gray-400" />
+              Show quick questions
+            </>
+          ) : (
+            <>
+              <ChevronDown className="w-4 h-4 text-gray-400" />
+              Hide quick questions
+            </>
+          )}
         </button>
       </div>
 
