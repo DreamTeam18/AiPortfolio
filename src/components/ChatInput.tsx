@@ -53,10 +53,10 @@ export function ChatInput({ className = '', messages, onAddMessage }: ChatInputP
       const data = await response.json();
 
       // Add assistant response as a message
-      if (data.response) {
+      if (data.message) {
         const assistantMessage: ChatMessage = {
           id: `assistant-${Date.now()}`,
-          content: data.response,
+          content: data.message,
           role: 'assistant',
           timestamp: new Date(),
         };
