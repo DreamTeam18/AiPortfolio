@@ -36,7 +36,7 @@ export function ChatSection({ messages, onAddMessage, onNavigate, onAvatarClick 
       </div>
 
       {/* Chat messages area - scrollable, taking up available space */}
-      <div className="flex-1 overflow-y-auto px-6 pb-4">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4">
         <div className="max-w-3xl mx-auto">
           {messages.map((message) => (
             <div key={message.id} className="mb-4">
@@ -62,7 +62,7 @@ export function ChatSection({ messages, onAddMessage, onNavigate, onAvatarClick 
       </div>
 
       {/* Chat Input at the bottom */}
-      <div className="px-6 pb-4">
+      <div className="px-4 sm:px-6 pb-4">
         <div className="max-w-3xl mx-auto">
           <ChatInput messages={messages} onAddMessage={onAddMessage} onNavigate={onNavigate} />
         </div>

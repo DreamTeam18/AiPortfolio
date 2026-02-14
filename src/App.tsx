@@ -191,6 +191,7 @@ function App() {
                 messages={chatMessages}
                 onAddMessage={addMessage}
                 onNavigate={handleNavigate}
+                onChatStart={handleChatStart}
               />
             </div>
 

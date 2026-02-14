@@ -8,9 +8,10 @@ interface ChatInputProps {
   messages: ChatMessage[];
   onAddMessage: (message: ChatMessage) => void;
   onNavigate?: (section: Section) => void;
+  onChatStart?: (message: string) => void; // For non-chat sections to switch to chat screen
 }
 
-export function ChatInput({ className = '', messages, onAddMessage, onNavigate }: ChatInputProps) {
+export function ChatInput({ className = '', messages, onAddMessage, onNavigate, onChatStart }: ChatInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,19 +22,19 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate }
     const userMessageText = searchQuery;
     setSearchQuery('');
 
-    // Create and add user message immediately
-    const userMessage: ChatMessage = {
-      id: `user-${Date.now()}`,
-      content: userMessageText,
-      role: 'user',
-      timestamp: new Date(),
-    };
-    onAddMessage(userMessage);
-
-    // Check for navigation intent BEFORE calling the API
+    // Check for navigation intent FIRST (before adding messages)
     const detectedSection = detectNavigationIntent(userMessageText);
 
     if (detectedSection && onNavigate) {
+      // Add user message for navigation intent
+      const userMessage: ChatMessage = {
+        id: `user-${Date.now()}`,
+        content: userMessageText,
+        role: 'user',
+        timestamp: new Date(),
+      };
+      onAddMessage(userMessage);
+
       // Add navigation message
       const navMessage = getNavigationMessage(detectedSection);
       const assistantMessage: ChatMessage = {
@@ -53,7 +54,23 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate }
       return;
     }
 
-    // No navigation intent detected, proceed with normal API call
+    // No navigation intent detected
+    // If we're in a non-chat section (onChatStart is provided), switch to chat screen
+    // The parent (App.tsx handleChatStart) will handle adding messages and calling API
+    if (onChatStart) {
+      onChatStart(userMessageText);
+      return;
+    }
+
+    // We're already in the chat section, add user message and call API
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      content: userMessageText,
+      role: 'user',
+      timestamp: new Date(),
+    };
+    onAddMessage(userMessage);
+
     setIsLoading(true);
     setError(null);
 
