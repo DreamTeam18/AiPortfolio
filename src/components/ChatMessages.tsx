@@ -20,7 +20,7 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
   return (
     <div className="w-full max-w-lg mx-auto mb-4 max-h-[400px] overflow-y-auto">
       <div className="space-y-4">
-        {messages.map((message) => (
+        {messages.slice(-4).map((message) => (
           <div
             key={message.id}
             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}

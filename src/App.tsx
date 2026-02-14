@@ -11,7 +11,6 @@ import { ContactSection } from './sections/ContactSection';
 import { ChatSection } from './sections/ChatSection';
 import { BottomToolbar } from './components/BottomToolbar';
 import { ChatInput } from './components/ChatInput';
-import { ChatMessages } from './components/ChatMessages';
 import type { ChatMessage } from './types/chat';
 
 type Section = 'landing' | 'me' | 'projects' | 'skills' | 'contact' | 'chat';
@@ -178,11 +177,6 @@ function App() {
               {activeSection === 'projects' && <ProjectsSection key="projects" />}
               {activeSection === 'skills' && <SkillsSection key="skills" />}
               {activeSection === 'contact' && <ContactSection key="contact" />}
-            </div>
-
-            {/* Chat Messages - scrollable area above input */}
-            <div className="fixed bottom-44 left-0 right-0 flex justify-center px-4 z-10 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
-              <ChatMessages messages={chatMessages} />
             </div>
 
             {/* Chat Input - pinned above toolbar */}

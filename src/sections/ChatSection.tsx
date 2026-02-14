@@ -1,16 +1,12 @@
 import { useRef, useEffect } from 'react';
-import { ChatInput } from '../components/ChatInput';
 import type { ChatMessage } from '../types/chat';
-import type { Section } from '../utils/intentDetection';
 
 interface ChatSectionProps {
   messages: ChatMessage[];
-  onAddMessage: (message: ChatMessage) => void;
-  onNavigate?: (section: Section) => void;
   onAvatarClick?: () => void;
 }
 
-export function ChatSection({ messages, onAddMessage, onNavigate, onAvatarClick }: ChatSectionProps) {
+export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new messages arrive
@@ -35,10 +31,10 @@ export function ChatSection({ messages, onAddMessage, onNavigate, onAvatarClick 
         </button>
       </div>
 
-      {/* Chat messages area - scrollable, taking up available space */}
-      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4">
+      {/* Chat messages area - scrollable, taking up available space, with bottom padding for fixed elements */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-48">
         <div className="max-w-3xl mx-auto">
-          {messages.map((message) => (
+          {messages.slice(-4).map((message) => (
             <div key={message.id} className="mb-4">
               {message.role === 'assistant' ? (
                 // Assistant messages: plain left-aligned text paragraphs (NOT bubbles)
@@ -58,13 +54,6 @@ export function ChatSection({ messages, onAddMessage, onNavigate, onAvatarClick 
             </div>
           ))}
           <div ref={messagesEndRef} />
-        </div>
-      </div>
-
-      {/* Chat Input at the bottom */}
-      <div className="px-4 sm:px-6 pb-4">
-        <div className="max-w-3xl mx-auto">
-          <ChatInput messages={messages} onAddMessage={onAddMessage} onNavigate={onNavigate} />
         </div>
       </div>
     </div>
