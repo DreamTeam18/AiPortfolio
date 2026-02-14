@@ -23,13 +23,13 @@ export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
       <div className="flex justify-center pt-6 pb-4">
         <button
           onClick={onAvatarClick}
-          className="w-16 h-16 rounded-full overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-16 h-16 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Return to landing page"
         >
           <img
             src="/memoji.jpg"
             alt="Siddhant Avatar"
-            className="w-full h-full object-cover scale-110"
+            className="w-full h-full object-cover mix-blend-multiply"
           />
         </button>
       </div>

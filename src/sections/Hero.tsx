@@ -64,11 +64,11 @@ export function Hero({ onNavigate, onChatStart }: HeroProps) {
 
       {/* Avatar */}
       <div className="relative mb-8">
-        <div className="w-48 h-48 sm:w-72 sm:h-72 relative overflow-hidden rounded-full">
+        <div className="w-48 h-48 sm:w-72 sm:h-72 relative">
           <img
             src="/memoji.jpg"
             alt="Siddhant Avatar"
-            className="w-full h-full object-cover scale-110 drop-shadow-xl"
+            className="w-full h-full object-cover mix-blend-multiply drop-shadow-xl"
           />
         </div>
       </div>
