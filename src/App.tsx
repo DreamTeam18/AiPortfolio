@@ -20,6 +20,7 @@ function App() {
   const [activeSection, setActiveSection] = useState<Section>('landing');
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [isChatLoading, setIsChatLoading] = useState(false);
   const isNavigatingRef = useRef(false);
   const previousSectionRef = useRef<Section>('landing');
   // Track whether we just entered from landing (for initial shell animation)
@@ -48,7 +49,15 @@ function App() {
     setActiveSection('contact');
   };
 
-  const handleNavigate = useCallback((section: Exclude<Section, 'landing'>) => {
+  // Predefined questions for each section's LLM call
+  const sectionQuestions: Record<string, string> = {
+    me: 'Who are you?',
+    projects: 'What are your projects? Show me some of them.',
+    skills: 'What are your skills? Give me some of your hard skills and soft skills.',
+    contact: 'How can I reach you?',
+  };
+
+  const handleNavigate = useCallback(async (section: Exclude<Section, 'landing'>) => {
     // Prevent rapid navigation during animations
     if (isNavigatingRef.current) {
       return;
@@ -56,9 +65,38 @@ function App() {
 
     isNavigatingRef.current = true;
     previousSectionRef.current = activeSection;
+
+    // If it's a content section, open chat first, show question, then redirect
+    const question = sectionQuestions[section];
+    if (question) {
+      // Step 1: Clear old messages and switch to chat screen
+      setChatMessages([]);
+      setIsChatLoading(true);
+      setActiveSection('chat');
+
+      // Step 2: Show the user question on screen
+      const userMessage: ChatMessage = {
+        id: `user-${Date.now()}`,
+        content: question,
+        role: 'user',
+        timestamp: new Date(),
+      };
+      setChatMessages([userMessage]);
+
+      // Step 3: After a brief delay to show the question, redirect to the section
+      setTimeout(() => {
+        setIsChatLoading(false);
+        setActiveSection(section);
+        setChatMessages([]);
+        isNavigatingRef.current = false;
+      }, 1000);
+      return;
+    }
+
+    // For non-content sections (e.g., chat), navigate directly
     setActiveSection(section);
 
-    // Reset navigation lock after animation completes (500ms matches animation duration)
+    // Reset navigation lock after animation completes
     setTimeout(() => {
       isNavigatingRef.current = false;
     }, 500);
@@ -85,7 +123,8 @@ function App() {
   }, []);
 
   const handleChatStart = useCallback(async (messageText: string) => {
-    // Transition to chat section
+    // Clear old messages and transition to chat section
+    setChatMessages([]);
     setActiveSection('chat');
 
     // Create user message
@@ -96,8 +135,9 @@ function App() {
       timestamp: new Date(),
     };
 
-    // Add user message to chat
-    setChatMessages(prev => [...prev, userMessage]);
+    // Add user message to chat (fresh start)
+    setChatMessages([userMessage]);
+    setIsChatLoading(true);
 
     // Call backend API
     try {
@@ -142,6 +182,8 @@ function App() {
         timestamp: new Date(),
       };
       setChatMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsChatLoading(false);
     }
   }, []);
 
@@ -157,12 +199,12 @@ function App() {
       {/* White background base */}
       <div className="fixed inset-0 bg-white z-0" />
 
-      {/* Fluid Gradient Background */}
-      <FluidCanvas />
+      {/* Fluid Gradient Background - only on landing page */}
+      {isLanding && <FluidCanvas />}
 
       {/* Content Overlay */}
       <div className="relative z-10">
-        <Header onInfoClick={() => setIsWelcomeModalOpen(true)} />
+        <Header onInfoClick={() => setIsWelcomeModalOpen(true)} animate={isLanding} />
 
         {/* Landing Page */}
         {isLanding && (
@@ -178,71 +220,91 @@ function App() {
           re-renders with a fade transition.
         */}
         {!isLanding && (
-          <div className={`min-h-screen flex flex-col ${isChat ? '' : 'pb-32'} transition-opacity duration-300 ${shellMounted ? 'opacity-100' : 'opacity-0'}`}>
+          <div className={`container mx-auto flex h-screen max-w-3xl flex-col transition-opacity duration-300 ${shellMounted ? 'opacity-100' : 'opacity-0'}`}>
 
-            {/* Small avatar at top - persistent, no re-animation on section switch */}
-            {isContentSection && (
-              <div className="flex justify-center pt-24 pb-6">
-                <button
-                  onClick={handleAvatarClick}
-                  className="w-20 h-20 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  aria-label="Return to landing page"
-                >
-                  <img
-                    src="/memoji.jpg"
-                    alt="Siddhant Avatar"
-                    className="w-full h-full object-cover mix-blend-multiply"
-                  />
-                </button>
+            {/* Scrollable content area */}
+            <div className="flex-1 overflow-y-auto px-2" style={{ paddingTop: '100px' }}>
+              <div className="pb-4">
+                <div className="flex h-full w-full flex-col px-4">
+                  <div className="flex h-full w-full flex-col overflow-y-auto">
+
+                    {/* Small avatar at top - persistent, no re-animation on section switch */}
+                    {isContentSection && (
+                      <div className="flex justify-center pb-6">
+                        <button
+                          onClick={handleAvatarClick}
+                          className="w-24 h-24 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          aria-label="Return to landing page"
+                        >
+                          <img
+                            src="/memoji.webp"
+                            alt="Siddhant Avatar"
+                            className="w-full h-full object-cover mix-blend-multiply"
+                          />
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Chat Screen avatar + messages */}
+                    {isChat && (
+                      <div className="flex-1 flex flex-col">
+                        <ChatSection
+                          key="chat"
+                          messages={chatMessages}
+                          isLoading={isChatLoading}
+                          onAvatarClick={handleAvatarClick}
+                        />
+                      </div>
+                    )}
+
+                    {/* Section Content - ONLY this area re-animates on section switch */}
+                    {isContentSection && (
+                      <div key={activeSection} className="flex-1 animate-in fade-in duration-300">
+                        {activeSection === 'me' && <MeSection />}
+                        {activeSection === 'projects' && <ProjectsSection />}
+                        {activeSection === 'skills' && <SkillsSection />}
+                        {activeSection === 'contact' && <ContactSection />}
+                      </div>
+                    )}
+
+                  </div>
+                </div>
               </div>
-            )}
-
-            {/* Chat Screen avatar + messages */}
-            {isChat && (
-              <div className="flex-1 flex flex-col pt-20">
-                <ChatSection
-                  key="chat"
-                  messages={chatMessages.slice(-4)}
-                  onAvatarClick={handleAvatarClick}
-                />
-              </div>
-            )}
-
-            {/* Section Content - ONLY this area re-animates on section switch */}
-            {isContentSection && (
-              <div key={activeSection} className="flex-1 animate-in fade-in duration-300">
-                {activeSection === 'me' && <MeSection />}
-                {activeSection === 'projects' && <ProjectsSection />}
-                {activeSection === 'skills' && <SkillsSection />}
-                {activeSection === 'contact' && <ContactSection />}
-              </div>
-            )}
-
-            {/* Chat Input - persistent, pinned above toolbar, no re-animation */}
-            <div className="fixed bottom-32 left-0 right-0 flex justify-center px-4 z-10">
-              {isChat ? (
-                <ChatInput
-                  messages={chatMessages}
-                  onAddMessage={addMessage}
-                  onNavigate={handleNavigate}
-                />
-              ) : (
-                <ChatInput
-                  messages={chatMessages}
-                  onAddMessage={addMessage}
-                  onNavigate={handleNavigate}
-                  onChatStart={handleChatStart}
-                />
-              )}
             </div>
 
-            {/* Bottom Toolbar - persistent, no re-animation on section switch */}
-            <BottomToolbar
-              activeSection={toolbarActiveSection}
-              onNavigate={handleNavigate}
-              isCollapsed={isToolbarCollapsed}
-              onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
-            />
+            {/* Sticky bottom area: toolbar + chat input */}
+            <div className="sticky bottom-0 z-20 bg-white px-2 pt-3 md:px-0 md:pb-4">
+              <div className="relative flex flex-col items-center gap-3">
+                {/* Toolbar: chevron + buttons */}
+                <BottomToolbar
+                  activeSection={toolbarActiveSection}
+                  onNavigate={handleNavigate}
+                  onAskQuestion={handleChatStart}
+                  isCollapsed={isToolbarCollapsed}
+                  onToggleCollapse={() => setIsToolbarCollapsed(!isToolbarCollapsed)}
+                />
+
+                {/* Chat Input - at the very bottom */}
+                {isChat ? (
+                  <ChatInput
+                    className="mx-auto max-w-[736px] [&_form>div]:h-[58px]"
+                    messages={chatMessages}
+                    onAddMessage={addMessage}
+                    onClearMessages={() => setChatMessages([])}
+                    onLoadingChange={setIsChatLoading}
+                    onNavigate={handleNavigate}
+                  />
+                ) : (
+                  <ChatInput
+                    className="mx-auto max-w-[736px] [&_form>div]:h-[58px]"
+                    messages={chatMessages}
+                    onAddMessage={addMessage}
+                    onNavigate={handleNavigate}
+                    onChatStart={handleChatStart}
+                  />
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

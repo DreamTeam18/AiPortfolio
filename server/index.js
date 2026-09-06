@@ -225,7 +225,7 @@ app.post('/api/chat', async (req, res) => {
         'X-Title': 'AI Portfolio - Siddhant Saxena', // Optional: site title
       },
       body: JSON.stringify({
-        model: 'arcee-ai/trinity-large-preview:free', // Using Arcee AI Trinity for free tier
+        model: 'minimax/minimax-m3:free', // MiniMax M3 free tier
         messages: messages,
         temperature: 0.7,
         max_tokens: 500,

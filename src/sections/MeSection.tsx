@@ -34,9 +34,11 @@ export function MeSection() {
           <p className="text-lg text-gray-600 mb-6">
             24 · Washington, DC
           </p>
-          <p className="text-base text-gray-700 leading-relaxed mb-6">
-            Hey 👋 I'm Siddhant. I'm a masters student specializing in Data Science at George Washington University. I'm passionate about AI, tech, Entrepreneurship and SaaS tech.
-          </p>
+          <div className="text-base text-gray-700 leading-relaxed mb-6 space-y-3">
+            <p>Hey 👋 I'm Siddhant.</p>
+            <p>I'm a masters student specializing in <span className="font-medium text-gray-900">Data Science</span> at <span className="font-medium text-gray-900">George Washington University</span>. I have <span className="font-medium text-gray-900">4 years</span> of software development experience at <span className="font-medium text-gray-900">Emerson</span>.</p>
+            <p>I'm passionate about AI, tech, Entrepreneurship and SaaS tech.</p>
+          </div>
         </div>
       </div>
 

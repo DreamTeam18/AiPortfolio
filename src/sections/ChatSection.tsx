@@ -1,20 +1,90 @@
-import { useRef, useEffect, useMemo } from 'react';
+import { useRef, useEffect, useMemo, useState, useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
 import type { ChatMessage } from '../types/chat';
+
+// Typewriter component that reveals text word-by-word with markdown rendering
+function TypewriterMarkdown({ content, onScrollNeeded }: { content: string; onScrollNeeded?: () => void }) {
+  const [displayedLength, setDisplayedLength] = useState(0);
+  const [isDone, setIsDone] = useState(false);
+  const contentRef = useRef(content);
+
+  // Reset when content changes
+  useEffect(() => {
+    if (content !== contentRef.current) {
+      contentRef.current = content;
+      setDisplayedLength(0);
+      setIsDone(false);
+    }
+  }, [content]);
+
+  useEffect(() => {
+    if (isDone) return;
+
+    // Reveal characters in chunks (word-by-word feel)
+    const interval = setInterval(() => {
+      setDisplayedLength((prev) => {
+        const next = prev + 2; // 2 chars at a time for smooth speed
+        if (next >= content.length) {
+          setIsDone(true);
+          clearInterval(interval);
+          return content.length;
+        }
+        return next;
+      });
+      onScrollNeeded?.();
+    }, 15); // ~15ms per chunk for a fast but visible streaming effect
+
+    return () => clearInterval(interval);
+  }, [content, isDone, onScrollNeeded]);
+
+  const displayedText = isDone ? content : content.slice(0, displayedLength);
+
+  return (
+    <>
+      <ReactMarkdown>{displayedText}</ReactMarkdown>
+      {!isDone && (
+        <span
+          className="inline-block w-[6px] h-[18px] bg-gray-400 align-middle ml-0.5"
+          style={{ animation: 'cursorBlink 0.8s step-end infinite' }}
+        />
+      )}
+      <style>{`
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
+    </>
+  );
+}
 
 interface ChatSectionProps {
   messages: ChatMessage[];
+  isLoading?: boolean;
   onAvatarClick?: () => void;
 }
 
-export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
+export function ChatSection({ messages, isLoading, onAvatarClick }: ChatSectionProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Display all messages in the scrollable chat area
   const visibleMessages = useMemo(() => messages, [messages]);
 
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
+
+  // Find the last assistant message id so we know which one to animate
+  const lastAssistantId = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'assistant') return messages[i].id;
+    }
+    return null;
   }, [messages]);
 
   return (
@@ -23,11 +93,11 @@ export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
       <div className="flex justify-center pt-6 pb-4">
         <button
           onClick={onAvatarClick}
-          className="w-16 h-16 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-20 h-20 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Return to landing page"
         >
           <img
-            src="/memoji.jpg"
+            src="/memoji.webp"
             alt="Siddhant Avatar"
             className="w-full h-full object-cover mix-blend-multiply"
           />
@@ -40,10 +110,14 @@ export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
           {visibleMessages.map((message) => (
             <div key={message.id} className="mb-4">
               {message.role === 'assistant' ? (
-                // Assistant messages: plain left-aligned text paragraphs (NOT bubbles)
-                <p className="text-gray-900 text-base leading-relaxed whitespace-pre-wrap">
-                  {message.content}
-                </p>
+                // Assistant messages: rendered markdown, left-aligned
+                <div className="prose prose-sm max-w-none text-gray-900 leading-relaxed [&>p]:mb-3 [&>ul]:mb-3 [&>ol]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_strong]:font-semibold [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mb-2 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-semibold [&>h3]:mb-1">
+                  {message.id === lastAssistantId ? (
+                    <TypewriterMarkdown content={message.content} onScrollNeeded={scrollToBottom} />
+                  ) : (
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  )}
+                </div>
               ) : (
                 // User messages: right-aligned blue rounded pill
                 <div className="flex justify-end">
@@ -56,6 +130,26 @@ export function ChatSection({ messages, onAvatarClick }: ChatSectionProps) {
               )}
             </div>
           ))}
+          {isLoading && (
+            <div className="mb-4 flex items-center gap-[5px]">
+              {[0, 1, 2, 3].map((i) => (
+                <span
+                  key={i}
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-blue-500"
+                  style={{
+                    animation: 'typingDot 1.4s ease-in-out infinite',
+                    animationDelay: `${i * 0.2}s`,
+                  }}
+                />
+              ))}
+              <style>{`
+                @keyframes typingDot {
+                  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+                  30% { opacity: 1; transform: translateY(-4px); }
+                }
+              `}</style>
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
       </div>

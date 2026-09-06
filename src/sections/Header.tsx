@@ -1,18 +1,26 @@
-import { Github, Circle, Info } from 'lucide-react';
+import { Github, Info } from 'lucide-react';
 
 interface HeaderProps {
   onInfoClick?: () => void;
+  animate?: boolean;
 }
 
-export function Header({ onInfoClick }: HeaderProps) {
+export function Header({ onInfoClick, animate = false }: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 pointer-events-none">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 pointer-events-none ${
+        animate ? 'animate-slide-in-from-top' : ''
+      }`}
+    >
       {/* Left button - Looking for a talent? */}
       <button
         className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         aria-label="Looking for a talent?"
       >
-        <Circle className="w-2 h-2 fill-green-500 text-green-500" />
+        <span className="relative flex h-2.5 w-2.5">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" style={{ animationDuration: '1s' }} />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500 shadow-[0_0_6px_2px_rgba(34,197,94,0.6)]" />
+        </span>
         <span className="text-xs sm:text-sm font-medium text-gray-800 whitespace-nowrap">Looking for a talent?</span>
       </button>
 

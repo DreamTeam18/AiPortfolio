@@ -3,7 +3,10 @@
     "allow": [
       "Bash(lsof:*)",
       "Bash(cat:*)",
-      "Bash(unzip:*)"
+      "Bash(unzip:*)",
+      "Bash(screencapture:*)",
+      "Bash(npm install:*)",
+      "WebSearch"
     ]
   }
 }

@@ -7,11 +7,13 @@ interface ChatInputProps {
   className?: string;
   messages: ChatMessage[];
   onAddMessage: (message: ChatMessage) => void;
+  onClearMessages?: () => void;
+  onLoadingChange?: (loading: boolean) => void;
   onNavigate?: (section: Section) => void;
   onChatStart?: (message: string) => void; // For non-chat sections to switch to chat screen
 }
 
-export function ChatInput({ className = '', messages, onAddMessage, onNavigate, onChatStart }: ChatInputProps) {
+export function ChatInput({ className = '', messages, onAddMessage, onClearMessages, onLoadingChange, onNavigate, onChatStart }: ChatInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,7 +64,8 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate, 
       return;
     }
 
-    // We're already in the chat section, add user message and call API
+    // We're already in the chat section - clear old messages, show only current Q&A
+    onClearMessages?.();
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       content: userMessageText,
@@ -72,6 +75,7 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate, 
     onAddMessage(userMessage);
 
     setIsLoading(true);
+    onLoadingChange?.(true);
     setError(null);
 
     try {
@@ -111,6 +115,7 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate, 
       setError(err instanceof Error ? err.message : 'Backend not running. Message saved but no AI response.');
     } finally {
       setIsLoading(false);
+      onLoadingChange?.(false);
     }
   };
 
@@ -121,31 +126,39 @@ export function ChatInput({ className = '', messages, onAddMessage, onNavigate, 
   };
 
   return (
-    <div className={`w-full max-w-lg ${className}`}>
-      <div className="relative flex items-center rounded-full border border-gray-200 bg-white/30 py-2.5 pr-2 pl-6 backdrop-blur-lg transition-all hover:border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Ask me anything…"
-          className="w-full border-none bg-transparent text-base text-gray-800 placeholder-gray-500 focus:outline-none"
-          disabled={isLoading}
-          aria-label="Ask me anything"
-        />
-        <button
-          onClick={handleSendMessage}
-          disabled={isLoading || !searchQuery.trim()}
-          className="flex items-center justify-center rounded-full bg-blue-500 p-2.5 text-white transition-colors hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          aria-label="Send message"
-        >
-          {isLoading ? (
-            <Loader2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <ArrowUp className="h-5 w-5" />
-          )}
-        </button>
-      </div>
+    <div className={`w-full pb-2 md:pb-8 ${className}`}>
+      <form
+        className="relative w-full md:px-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSendMessage();
+        }}
+      >
+        <div className="mx-auto flex items-center rounded-full border border-[#E5E5E9] bg-[#ECECF0] py-2 pr-2 pl-6">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Ask me anything"
+            className="text-md w-full border-none bg-transparent text-black placeholder:text-gray-500 focus:outline-none"
+            disabled={isLoading}
+            aria-label="Ask me anything"
+          />
+          <button
+            type="submit"
+            disabled={isLoading || !searchQuery.trim()}
+            className="flex items-center justify-center rounded-full bg-[#0171E3] p-2 text-white disabled:opacity-50"
+            aria-label="Send message"
+          >
+            {isLoading ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              <ArrowUp className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+      </form>
 
       {/* Error Message */}
       {error && (

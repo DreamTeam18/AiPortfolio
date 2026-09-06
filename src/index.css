@@ -112,6 +112,37 @@ button, a, input, select, textarea {
   transition-duration: 200ms;
 }
 
+/* Landing page slide-in animations */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-from-top {
+  animation: slideInFromTop 3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-in-from-bottom {
+  animation: slideInFromBottom 3s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
