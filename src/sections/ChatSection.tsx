@@ -1,53 +1,15 @@
-import { useRef, useEffect, useMemo, useState, useCallback } from 'react';
+import { useRef, useEffect, useMemo, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import type { ChatMessage } from '../types/chat';
 
-// Typewriter component that reveals text word-by-word with markdown rendering
-function TypewriterMarkdown({ content, onScrollNeeded }: { content: string; onScrollNeeded?: () => void }) {
-  const [displayedLength, setDisplayedLength] = useState(0);
-  const [isDone, setIsDone] = useState(false);
-  const contentRef = useRef(content);
-
-  // Reset when content changes
-  useEffect(() => {
-    if (content !== contentRef.current) {
-      contentRef.current = content;
-      setDisplayedLength(0);
-      setIsDone(false);
-    }
-  }, [content]);
-
-  useEffect(() => {
-    if (isDone) return;
-
-    // Reveal characters in chunks (word-by-word feel)
-    const interval = setInterval(() => {
-      setDisplayedLength((prev) => {
-        const next = prev + 2; // 2 chars at a time for smooth speed
-        if (next >= content.length) {
-          setIsDone(true);
-          clearInterval(interval);
-          return content.length;
-        }
-        return next;
-      });
-      onScrollNeeded?.();
-    }, 15); // ~15ms per chunk for a fast but visible streaming effect
-
-    return () => clearInterval(interval);
-  }, [content, isDone, onScrollNeeded]);
-
-  const displayedText = isDone ? content : content.slice(0, displayedLength);
-
+// Blinking caret shown at the end of a message that is still streaming in.
+function StreamingCursor() {
   return (
     <>
-      <ReactMarkdown>{displayedText}</ReactMarkdown>
-      {!isDone && (
-        <span
-          className="inline-block w-[6px] h-[18px] bg-gray-400 align-middle ml-0.5"
-          style={{ animation: 'cursorBlink 0.8s step-end infinite' }}
-        />
-      )}
+      <span
+        className="inline-block w-[6px] h-[18px] bg-gray-400 align-middle ml-0.5"
+        style={{ animation: 'cursorBlink 0.8s step-end infinite' }}
+      />
       <style>{`
         @keyframes cursorBlink {
           0%, 100% { opacity: 1; }
@@ -61,10 +23,12 @@ function TypewriterMarkdown({ content, onScrollNeeded }: { content: string; onSc
 interface ChatSectionProps {
   messages: ChatMessage[];
   isLoading?: boolean;
+  /** Id of the message currently streaming in, if any. */
+  streamingId?: string | null;
   onAvatarClick?: () => void;
 }
 
-export function ChatSection({ messages, isLoading, onAvatarClick }: ChatSectionProps) {
+export function ChatSection({ messages, isLoading, streamingId, onAvatarClick }: ChatSectionProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Display all messages in the scrollable chat area
@@ -78,14 +42,6 @@ export function ChatSection({ messages, isLoading, onAvatarClick }: ChatSectionP
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
-
-  // Find the last assistant message id so we know which one to animate
-  const lastAssistantId = useMemo(() => {
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === 'assistant') return messages[i].id;
-    }
-    return null;
-  }, [messages]);
 
   return (
     <div className="flex flex-col h-full">
@@ -112,11 +68,8 @@ export function ChatSection({ messages, isLoading, onAvatarClick }: ChatSectionP
               {message.role === 'assistant' ? (
                 // Assistant messages: rendered markdown, left-aligned
                 <div className="prose prose-sm max-w-none text-gray-900 leading-relaxed [&>p]:mb-3 [&>ul]:mb-3 [&>ol]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_strong]:font-semibold [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mb-2 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-semibold [&>h3]:mb-1">
-                  {message.id === lastAssistantId ? (
-                    <TypewriterMarkdown content={message.content} onScrollNeeded={scrollToBottom} />
-                  ) : (
-                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                  )}
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                  {message.id === streamingId && <StreamingCursor />}
                 </div>
               ) : (
                 // User messages: right-aligned blue rounded pill

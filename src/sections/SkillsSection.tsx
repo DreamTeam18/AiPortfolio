@@ -1,4 +1,4 @@
-import { Code2, Settings, Database, Wrench, Sparkles, Users } from 'lucide-react';
+import { Code2, Settings, Database, Wrench, Sparkles, Cpu, Users } from 'lucide-react';
 
 export function SkillsSection() {
   return (
@@ -17,7 +17,7 @@ export function SkillsSection() {
             <h3 className="text-xl font-semibold text-gray-900">Frontend Development</h3>
           </div>
           <div className="flex flex-wrap gap-2">
-            {['HTML', 'CSS', 'JavaScript/TypeScript', 'Tailwind CSS', 'Bootstrap', 'Next.js', 'React', 'Vercel AI SDK', 'GSAP'].map((skill) => (
+            {['HTML', 'CSS', 'JavaScript/TypeScript', 'React', 'Angular', 'Tailwind CSS', 'D3.js', 'Material Design', 'Responsive Web Design'].map((skill) => (
               <span
                 key={skill}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
@@ -35,7 +35,7 @@ export function SkillsSection() {
             <h3 className="text-xl font-semibold text-gray-900">Backend & Systems</h3>
           </div>
           <div className="flex flex-wrap gap-2">
-            {['Java', 'Python', 'C#', 'Kotlin', 'Spring Boot', 'Angular', 'NodeJS', '.NET 4.8'].map((skill) => (
+            {['Java', 'Python', 'C#', 'Kotlin', 'Spring Boot', 'Angular', '.NET 4.8', 'NodeJS'].map((skill) => (
               <span
                 key={skill}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
@@ -64,25 +64,7 @@ export function SkillsSection() {
           </div>
         </div>
 
-        {/* 4. Tools & DevOps */}
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <Wrench className="w-6 h-6 text-gray-700" />
-            <h3 className="text-xl font-semibold text-gray-900">Tools & DevOps</h3>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {['Git', 'GitHub', 'Docker', 'AWS', 'Azure Services', 'GCP', 'Maven', 'Postman', 'PowerBI'].map((skill) => (
-              <span
-                key={skill}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* 5. AI & Fullstack Engineering */}
+        {/* 4. AI & Fullstack Engineering */}
         <div>
           <div className="flex items-center gap-3 mb-4">
             <Sparkles className="w-6 h-6 text-gray-700" />
@@ -90,15 +72,13 @@ export function SkillsSection() {
           </div>
           <div className="flex flex-wrap gap-2">
             {[
-              'ChatGPT',
-              'Whisper',
-              'Groq',
-              'Mistral',
-              'Claude',
+              'Deep Learning',
+              'Transformers',
               'AI Agents',
-              'Prompt Engineering',
-              'Weaviate',
-              'Pinecone',
+              'General Adversarial Networks',
+              'CNNs',
+              'Data Pipelines - ETL',
+              'Spring AI',
               'RAG',
               'Tool routing & calling'
             ].map((skill) => (
@@ -112,7 +92,43 @@ export function SkillsSection() {
           </div>
         </div>
 
-        {/* 6. Soft Skills */}
+        {/* 5. Tools & DevOps */}
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <Wrench className="w-6 h-6 text-gray-700" />
+            <h3 className="text-xl font-semibold text-gray-900">Tools & DevOps</h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {['Git', 'GitHub', 'Docker', 'AWS', 'Kubernetes', 'Azure Services', 'Kafka', 'Maven', 'Postman', 'Tableau'].map((skill) => (
+              <span
+                key={skill}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* 6. Controls Systems and Embedded Exposure */}
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <Cpu className="w-6 h-6 text-gray-700" />
+            <h3 className="text-xl font-semibold text-gray-900">Controls Systems and Embedded Exposure</h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {['SCADA', 'Control Systems', 'Emerson DeltaV', 'OPC UA/DA', 'PID Control', 'Modbus TCP', 'Hardware in loop (HIL)'].map((skill) => (
+              <span
+                key={skill}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* 7. Soft Skills */}
         <div>
           <div className="flex items-center gap-3 mb-4">
             <Users className="w-6 h-6 text-gray-700" />

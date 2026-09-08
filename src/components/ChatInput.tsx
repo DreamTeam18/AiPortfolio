@@ -2,18 +2,21 @@ import { useState } from 'react';
 import { ArrowUp, Loader2 } from 'lucide-react';
 import type { ChatMessage } from '../types/chat';
 import { detectNavigationIntent, getNavigationMessage, type Section } from '../utils/intentDetection';
+import { streamChat } from '../utils/streamChat';
 
 interface ChatInputProps {
   className?: string;
   messages: ChatMessage[];
   onAddMessage: (message: ChatMessage) => void;
+  onUpdateMessage: (id: string, content: string) => void;
+  onStreamingChange?: (id: string | null) => void;
   onClearMessages?: () => void;
   onLoadingChange?: (loading: boolean) => void;
   onNavigate?: (section: Section) => void;
   onChatStart?: (message: string) => void; // For non-chat sections to switch to chat screen
 }
 
-export function ChatInput({ className = '', messages, onAddMessage, onClearMessages, onLoadingChange, onNavigate, onChatStart }: ChatInputProps) {
+export function ChatInput({ className = '', messages, onAddMessage, onUpdateMessage, onStreamingChange, onClearMessages, onLoadingChange, onNavigate, onChatStart }: ChatInputProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -79,43 +82,37 @@ export function ChatInput({ className = '', messages, onAddMessage, onClearMessa
     setError(null);
 
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // The bubble is created on the first token, so the spinner stays up
+      // until there is actually something to show.
+      let assistantId = '';
+
+      await streamChat({
+        message: userMessageText,
+        history: [...messages, userMessage],
+        onDelta: (content) => {
+          if (!assistantId) {
+            assistantId = `assistant-${Date.now()}`;
+            setIsLoading(false);
+            onLoadingChange?.(false);
+            onStreamingChange?.(assistantId);
+            onAddMessage({
+              id: assistantId,
+              content,
+              role: 'assistant',
+              timestamp: new Date(),
+            });
+          } else {
+            onUpdateMessage(assistantId, content);
+          }
         },
-        body: JSON.stringify({
-          message: userMessageText,
-          history: [...messages, userMessage].map(m => ({
-            role: m.role,
-            content: m.content
-          })),
-        }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get response');
-      }
-
-      const data = await response.json();
-
-      // Add assistant response as a message
-      if (data.message) {
-        const assistantMessage: ChatMessage = {
-          id: `assistant-${Date.now()}`,
-          content: data.message,
-          role: 'assistant',
-          timestamp: new Date(),
-        };
-        onAddMessage(assistantMessage);
-      }
     } catch (err) {
       console.error('Chat error:', err);
       setError(err instanceof Error ? err.message : 'Backend not running. Message saved but no AI response.');
     } finally {
       setIsLoading(false);
       onLoadingChange?.(false);
+      onStreamingChange?.(null);
     }
   };
 

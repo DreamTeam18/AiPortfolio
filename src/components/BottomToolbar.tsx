@@ -96,11 +96,17 @@ export function BottomToolbar({
           >
             {buttons.map((button) => {
               const Icon = button.icon;
+              const isActive = button.id === activeSection;
               return (
                 <button
                   key={button.id}
                   onClick={() => onNavigate(button.id)}
-                  className="h-auto min-w-[100px] flex-shrink-0 cursor-pointer rounded-xl border border-neutral-200 bg-white/80 px-4 py-3 shadow-none backdrop-blur-sm transition-none active:scale-95 hover:bg-neutral-200/30"
+                  className={`h-auto min-w-[100px] flex-shrink-0 cursor-pointer rounded-xl border px-4 py-3 shadow-none backdrop-blur-sm transition-none active:scale-95 ${
+                    isActive ? '' : 'border-neutral-200 bg-white/80 hover:bg-neutral-200/30'
+                  }`}
+                  // The active section is tinted with the button's own accent colour
+                  style={isActive ? { borderColor: button.color, backgroundColor: `${button.color}14` } : undefined}
+                  aria-current={isActive ? 'page' : undefined}
                   aria-label={`Navigate to ${button.label}`}
                 >
                   <div className="flex items-center gap-3 text-gray-700">

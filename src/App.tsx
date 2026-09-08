@@ -12,6 +12,7 @@ import { ChatSection } from './sections/ChatSection';
 import { BottomToolbar } from './components/BottomToolbar';
 import { ChatInput } from './components/ChatInput';
 import type { ChatMessage } from './types/chat';
+import { streamChat } from './utils/streamChat';
 
 type Section = 'landing' | 'me' | 'projects' | 'skills' | 'contact' | 'chat';
 
@@ -21,6 +22,7 @@ function App() {
   const [isToolbarCollapsed, setIsToolbarCollapsed] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [streamingId, setStreamingId] = useState<string | null>(null);
   const isNavigatingRef = useRef(false);
   const previousSectionRef = useRef<Section>('landing');
   // Track whether we just entered from landing (for initial shell animation)
@@ -122,6 +124,10 @@ function App() {
     setChatMessages(prev => [...prev, message]);
   }, []);
 
+  const updateMessage = useCallback((id: string, content: string) => {
+    setChatMessages(prev => prev.map(m => (m.id === id ? { ...m, content } : m)));
+  }, []);
+
   const handleChatStart = useCallback(async (messageText: string) => {
     // Clear old messages and transition to chat section
     setChatMessages([]);
@@ -139,39 +145,32 @@ function App() {
     setChatMessages([userMessage]);
     setIsChatLoading(true);
 
-    // Call backend API
+    // Call backend API - the response streams in token by token
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      // The bubble is created on the first token, so the spinner stays up
+      // until there is actually something to show.
+      let assistantId = '';
+
+      await streamChat({
+        message: messageText,
+        history: [userMessage],
+        onDelta: (content) => {
+          if (!assistantId) {
+            assistantId = `assistant-${Date.now()}`;
+            const id = assistantId;
+            setIsChatLoading(false);
+            setStreamingId(id);
+            setChatMessages(prev => [...prev, {
+              id,
+              content,
+              role: 'assistant',
+              timestamp: new Date(),
+            }]);
+          } else {
+            updateMessage(assistantId, content);
+          }
         },
-        body: JSON.stringify({
-          message: messageText,
-          history: [userMessage].map(m => ({
-            role: m.role,
-            content: m.content
-          })),
-        }),
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get response');
-      }
-
-      const data = await response.json();
-
-      // Add assistant response
-      if (data.message) {
-        const assistantMessage: ChatMessage = {
-          id: `assistant-${Date.now()}`,
-          content: data.message,
-          role: 'assistant',
-          timestamp: new Date(),
-        };
-        setChatMessages(prev => [...prev, assistantMessage]);
-      }
     } catch (err) {
       console.error('Chat error:', err);
       // Add error message to chat
@@ -184,8 +183,9 @@ function App() {
       setChatMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsChatLoading(false);
+      setStreamingId(null);
     }
-  }, []);
+  }, [updateMessage]);
 
   const isLanding = activeSection === 'landing';
   const isChat = activeSection === 'chat';
@@ -252,6 +252,7 @@ function App() {
                           key="chat"
                           messages={chatMessages}
                           isLoading={isChatLoading}
+                          streamingId={streamingId}
                           onAvatarClick={handleAvatarClick}
                         />
                       </div>
@@ -290,6 +291,8 @@ function App() {
                     className="mx-auto max-w-[736px] [&_form>div]:h-[58px]"
                     messages={chatMessages}
                     onAddMessage={addMessage}
+                    onUpdateMessage={updateMessage}
+                    onStreamingChange={setStreamingId}
                     onClearMessages={() => setChatMessages([])}
                     onLoadingChange={setIsChatLoading}
                     onNavigate={handleNavigate}
@@ -299,6 +302,8 @@ function App() {
                     className="mx-auto max-w-[736px] [&_form>div]:h-[58px]"
                     messages={chatMessages}
                     onAddMessage={addMessage}
+                    onUpdateMessage={updateMessage}
+                    onStreamingChange={setStreamingId}
                     onNavigate={handleNavigate}
                     onChatStart={handleChatStart}
                   />

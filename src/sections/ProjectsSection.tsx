@@ -14,21 +14,22 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 'airbnb',
-    category: 'Backend Project',
-    title: 'Airbnb - Hotel Booking System',
-    description: 'A comprehensive hotel booking system built with Spring Boot REST API. Persistence is handled with Spring Data JPA over PostgreSQL, while Spring Security provides role-based access control (RBAC) with JWT authentication across guest, host, and admin roles. Stripe powers payments, with webhooks handling asynchronous payment, payout, and refund events, and every endpoint is documented and testable through Swagger UI (OpenAPI). Rounded out with Resilience4j resilience patterns and dynamic pricing algorithms, this backend service handles booking requests with high availability and fault tolerance.',
-    technologies: ['Java', 'Spring Boot', 'Spring Data JPA', 'Spring Security (RBAC)', 'PostgreSQL', 'Stripe Webhooks', 'JWT', 'Swagger UI', 'Resilience4j'],
-    gradient: 'from-orange-600 via-red-600 to-pink-600',
-    githubUrl: 'https://github.com/siddhant1599/Airbnb'
+    id: 'survival-gan',
+    category: 'Machine Learning Project',
+    title: 'SurvGAN - Generative Adversarial Network',
+    description: 'A three model generative architecture for synthesizing realistic survival data. The pipeline pairs a WGAN-GP generator with a DeepHit survival head and an XGBoost time to event model, then benchmarks the result against CTGAN and a plain GAN baseline through a synthcity evaluation harness measuring marginal, joint, and survival fidelity. The trained generator is served through a Flask inference API behind an Angular web interface, and the full study is written up in an accompanying research paper.',
+    technologies: ['Python', 'PyTorch', 'WGAN-GP', 'DeepHit', 'XGBoost', 'CTGAN', 'synthcity', 'Flask', 'Angular'],
+    gradient: 'from-slate-900 via-cyan-700 to-emerald-500',
+    githubUrl: 'https://github.com/siddhant1599/SurvivalGAN_Generative-adversarial-networks'
   },
   {
-    id: 'laughgpt',
-    category: 'Fullstack Project',
-    title: 'LaughGPT',
-    description: 'A fullstack application that integrates multiple AI models with a single prompt interface. Built with React and TypeScript on the frontend and Spring Boot with Java on the backend, this app demonstrates seamless integration of various AI APIs to provide intelligent responses.',
-    technologies: ['React', 'TypeScript', 'Spring Boot', 'Java', 'AI APIs'],
-    gradient: 'from-green-600 via-teal-600 to-cyan-600'
+    id: 'spring-microservices',
+    category: 'Microservices Project',
+    title: 'Spring Microservices',
+    description: 'A distributed Spring Cloud system built from five independent services: a Eureka discovery-service for registration, an api-gateway as the single entry point, a centralized config-server, and order-service and inventory-service as the business domains. Services call each other declaratively through Feign clients, and Resilience4j guards every hop with circuit breakers, retries, and rate limiters so a slow or failing downstream degrades gracefully instead of cascading.',
+    technologies: ['Java', 'Spring Boot', 'Spring Cloud', 'Eureka', 'API Gateway', 'Config Server', 'Feign', 'Resilience4j'],
+    gradient: 'from-rose-500 via-fuchsia-600 to-purple-700',
+    githubUrl: 'https://github.com/siddhant1599/Spring-MicroserviceRepo'
   },
   {
     id: 'kafka-demo',
@@ -47,6 +48,23 @@ const projects: Project[] = [
     technologies: ['Java', 'Spring Boot', 'Docker', 'PostgreSQL', 'Maven'],
     gradient: 'from-blue-500 via-indigo-500 to-gray-700',
     githubUrl: 'https://github.com/siddhant1599/Docker-repo'
+  },
+  {
+    id: 'airbnb',
+    category: 'Backend Project',
+    title: 'Airbnb - Hotel Booking System',
+    description: 'A comprehensive hotel booking system built with Spring Boot REST API. Persistence is handled with Spring Data JPA over PostgreSQL, while Spring Security provides role-based access control (RBAC) with JWT authentication across guest, host, and admin roles. Stripe powers payments, with webhooks handling asynchronous payment, payout, and refund events, and every endpoint is documented and testable through Swagger UI (OpenAPI). Rounded out with Resilience4j resilience patterns and dynamic pricing algorithms, this backend service handles booking requests with high availability and fault tolerance.',
+    technologies: ['Java', 'Spring Boot', 'Spring Data JPA', 'Spring Security (RBAC)', 'PostgreSQL', 'Stripe Webhooks', 'JWT', 'Swagger UI', 'Resilience4j'],
+    gradient: 'from-orange-600 via-red-600 to-pink-600',
+    githubUrl: 'https://github.com/siddhant1599/Airbnb'
+  },
+  {
+    id: 'laughgpt',
+    category: 'Fullstack Project',
+    title: 'LaughGPT',
+    description: 'A fullstack application that integrates multiple AI models with a single prompt interface. Built with React and TypeScript on the frontend and Spring Boot with Java on the backend, this app demonstrates seamless integration of various AI APIs to provide intelligent responses.',
+    technologies: ['React', 'TypeScript', 'Spring Boot', 'Java', 'AI APIs'],
+    gradient: 'from-green-600 via-teal-600 to-cyan-600'
   }
 ];
 
@@ -80,12 +98,20 @@ export function ProjectsSection() {
     return () => window.removeEventListener('resize', updateSlidesToShow);
   }, []);
 
+  // Last position that still fills every visible slot, so we never scroll into blank space
+  const maxIndex = Math.max(0, projects.length - slidesToShow);
+
+  // Pull the carousel back in range when the viewport grows and reveals more cards
+  useEffect(() => {
+    setCurrentIndex((prev) => Math.min(prev, maxIndex));
+  }, [maxIndex]);
+
   const handlePrevious = () => {
-    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : projects.length - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev < projects.length - 1 ? prev + 1 : 0));
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
   return (
@@ -128,6 +154,26 @@ export function ProjectsSection() {
           ))}
         </div>
       </div>
+
+      {/* Pagination Dots */}
+      <div className="flex justify-center items-center gap-2 mb-6">
+        {Array.from({ length: maxIndex + 1 }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              i === currentIndex
+                ? 'w-6 bg-gray-900'
+                : 'w-2 bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to project ${i + 1} of ${maxIndex + 1}`}
+            aria-current={i === currentIndex ? 'true' : undefined}
+          />
+        ))}
+      </div>
+      <p className="sr-only" aria-live="polite">
+        {`Showing projects ${currentIndex + 1} to ${Math.min(currentIndex + slidesToShow, projects.length)} of ${projects.length}`}
+      </p>
 
       {/* Navigation Arrows */}
       <div className="flex justify-center gap-4">
