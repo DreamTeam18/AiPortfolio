@@ -1,14 +1,14 @@
-import { X } from 'lucide-react';
+import { Github, X } from 'lucide-react';
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 interface Project {
   id: string;
   category: string;
   title: string;
-  year: string;
   description: string;
   technologies: string[];
   gradient: string;
+  githubUrl?: string;
 }
 
 interface ProjectDetailModalProps {
@@ -109,12 +109,6 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
 
           {/* Gray Card Section */}
           <div className="bg-gray-100 rounded-2xl p-6 space-y-4">
-            {/* Year */}
-            <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">YEAR</p>
-              <p className="text-base text-gray-900">{project.year}</p>
-            </div>
-
             {/* Description */}
             <div>
               <p className="text-base text-gray-800 leading-relaxed">
@@ -136,6 +130,23 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
                 ))}
               </div>
             </div>
+
+            {/* GitHub Link */}
+            {project.githubUrl && (
+              <div>
+                <p className="text-sm font-semibold text-gray-700 mb-3">SOURCE CODE</p>
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  aria-label={`View ${project.title} on GitHub (opens in a new tab)`}
+                >
+                  <Github className="w-4 h-4" aria-hidden="true" />
+                  View on GitHub
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>

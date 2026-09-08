@@ -6,10 +6,10 @@ interface Project {
   id: string;
   category: string;
   title: string;
-  year: string;
   description: string;
   technologies: string[];
   gradient: string;
+  githubUrl?: string;
 }
 
 const projects: Project[] = [
@@ -17,16 +17,15 @@ const projects: Project[] = [
     id: 'airbnb',
     category: 'Backend Project',
     title: 'Airbnb - Hotel Booking System',
-    year: '2021-2025',
-    description: 'A comprehensive hotel booking system built with Spring Boot REST API, featuring resilience patterns with Resilience4j, PostgreSQL database, JWT authentication, Stripe payment integration, and dynamic pricing algorithms. This backend service handles millions of booking requests with high availability and fault tolerance.',
-    technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Stripe', 'JWT', 'Resilience4j'],
-    gradient: 'from-orange-600 via-red-600 to-pink-600'
+    description: 'A comprehensive hotel booking system built with Spring Boot REST API. Persistence is handled with Spring Data JPA over PostgreSQL, while Spring Security provides role-based access control (RBAC) with JWT authentication across guest, host, and admin roles. Stripe powers payments, with webhooks handling asynchronous payment, payout, and refund events, and every endpoint is documented and testable through Swagger UI (OpenAPI). Rounded out with Resilience4j resilience patterns and dynamic pricing algorithms, this backend service handles booking requests with high availability and fault tolerance.',
+    technologies: ['Java', 'Spring Boot', 'Spring Data JPA', 'Spring Security (RBAC)', 'PostgreSQL', 'Stripe Webhooks', 'JWT', 'Swagger UI', 'Resilience4j'],
+    gradient: 'from-orange-600 via-red-600 to-pink-600',
+    githubUrl: 'https://github.com/siddhant1599/Airbnb'
   },
   {
     id: 'laughgpt',
     category: 'Fullstack Project',
     title: 'LaughGPT',
-    year: '2024',
     description: 'A fullstack application that integrates multiple AI models with a single prompt interface. Built with React and TypeScript on the frontend and Spring Boot with Java on the backend, this app demonstrates seamless integration of various AI APIs to provide intelligent responses.',
     technologies: ['React', 'TypeScript', 'Spring Boot', 'Java', 'AI APIs'],
     gradient: 'from-green-600 via-teal-600 to-cyan-600'
@@ -35,19 +34,19 @@ const projects: Project[] = [
     id: 'kafka-demo',
     category: 'Microservices Project',
     title: 'Kafka Demo Project',
-    year: '2024',
     description: 'A microservices architecture demonstration featuring Apache Kafka configuration with Spring Boot, Schema Registry integration, and multiple services including notification-service and user-service. This project showcases event-driven architecture patterns with Docker containerization and Confluent platform.',
     technologies: ['Java', 'Spring Boot', 'Apache Kafka', 'Docker', 'Confluent'],
-    gradient: 'from-purple-600 via-violet-600 to-indigo-600'
+    gradient: 'from-purple-600 via-violet-600 to-indigo-600',
+    githubUrl: 'https://github.com/siddhant1599/KafkaDemoProject'
   },
   {
     id: 'docker-repo',
     category: 'DevOps Project',
     title: 'Docker-repo',
-    year: '2024',
     description: 'A fully containerized backend Spring Boot service with PostgreSQL database using Docker Compose. This project demonstrates best practices in containerization, including multi-stage builds with Maven, environment configuration, and orchestration of multiple services.',
     technologies: ['Java', 'Spring Boot', 'Docker', 'PostgreSQL', 'Maven'],
-    gradient: 'from-blue-500 via-indigo-500 to-gray-700'
+    gradient: 'from-blue-500 via-indigo-500 to-gray-700',
+    githubUrl: 'https://github.com/siddhant1599/Docker-repo'
   }
 ];
 
