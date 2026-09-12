@@ -204,7 +204,11 @@ function App() {
 
       {/* Content Overlay */}
       <div className="relative z-10">
-        <Header onInfoClick={() => setIsWelcomeModalOpen(true)} animate={isLanding} />
+        <Header
+          onInfoClick={() => setIsWelcomeModalOpen(true)}
+          onTalentClick={() => handleNavigate('contact')}
+          animate={isLanding}
+        />
 
         {/* Landing Page */}
         {isLanding && (

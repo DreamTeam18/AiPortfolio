@@ -2,10 +2,11 @@ import { Github, Info } from 'lucide-react';
 
 interface HeaderProps {
   onInfoClick?: () => void;
+  onTalentClick?: () => void;
   animate?: boolean;
 }
 
-export function Header({ onInfoClick, animate = false }: HeaderProps) {
+export function Header({ onInfoClick, onTalentClick, animate = false }: HeaderProps) {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 pointer-events-none ${
@@ -14,6 +15,7 @@ export function Header({ onInfoClick, animate = false }: HeaderProps) {
     >
       {/* Left button - Looking for a talent? */}
       <button
+        onClick={onTalentClick}
         className="pointer-events-auto flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-100 hover:bg-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         aria-label="Looking for a talent?"
       >
