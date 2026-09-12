@@ -8,6 +8,8 @@ interface Project {
   description: string;
   technologies: string[];
   gradient: string;
+  period?: string;
+  highlights?: string[];
   githubUrl?: string;
 }
 
@@ -111,9 +113,21 @@ export function ProjectDetailModal({ project, onClose }: ProjectDetailModalProps
           <div className="bg-gray-100 rounded-2xl p-6 space-y-4">
             {/* Description */}
             <div>
+              {project.period && (
+                <p className="text-sm font-semibold text-gray-500 mb-2">{project.period}</p>
+              )}
               <p className="text-base text-gray-800 leading-relaxed">
                 {project.description}
               </p>
+              {project.highlights && (
+                <ul className="mt-3 space-y-2 list-disc pl-5 marker:text-gray-400">
+                  {project.highlights.map((point) => (
+                    <li key={point} className="text-base text-gray-800 leading-relaxed">
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             {/* Technologies */}
