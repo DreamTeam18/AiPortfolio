@@ -16,7 +16,7 @@ export function ContactSection() {
             href="mailto:siddhantsaxenaa18@gmail.com"
             className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 transition-colors group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
           >
-            <span className="text-base sm:text-lg font-medium">siddhant.saxena@gwu.edu</span>
+            <span className="text-base sm:text-lg font-medium">siddhantsaxenaa18@gmail.com</span>
             <ArrowRight className="h-4 w-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

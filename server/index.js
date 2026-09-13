@@ -81,11 +81,12 @@ TABLE OF CONTENTS
   [S4.6] <projects>
     [P1] Builder.ai - AI Code Generation SaaS Platform
     [P2] SurvGAN - Generative Adversarial Network
-    [P3] Spring Microservices
-    [P4] Kafka Project
-    [P5] Docker Project
-    [P6] Airbnb - Hotel Booking System
-    [P7] Spring Data JPA Mappings
+    [P3] QuizPilot - LangGraph AI Quiz Coach
+    [P4] Spring Microservices
+    [P5] Kafka Project
+    [P6] Docker Project
+    [P7] Airbnb - Hotel Booking System
+    [P8] Spring Data JPA Mappings
   [S4.7] <education>
     [ED1] The George Washington University - Master of Science, Data Science
     [ED2] Vishwakarma Institute of Technology - Bachelor of Science, Computer Science
@@ -103,7 +104,7 @@ TOPIC LOOKUP (question about -> look in)
 - Industry work experience -> E1 (E1.1, E1.2)
 - Teaching / mentoring -> E2 (E2.1, E2.2)
 - Skills / tech stack -> S4.5 (K1-K6); where a skill was used -> KEYWORD INDEX
-- Projects -> S4.6 (P1-P7); answer format -> S3
+- Projects -> S4.6 (P1-P8); answer format -> S3
 - Achievements / metrics -> E1.1, E1.2, E2.1, E2.2, P1
 - Education -> S4.7 (ED1, ED2)
 - Contact information -> S4.8
@@ -114,35 +115,35 @@ TOPIC LOOKUP (question about -> look in)
 KEYWORD INDEX (term -> where it appears)
 - Java -> K2, E1.1
 - JavaScript / TypeScript -> K1, E1.2
-- Python / C# / Kotlin / .NET / NodeJS -> K2
+- Python / C# / Kotlin / .NET / NodeJS -> K2, P3
 - HTML / CSS / Tailwind CSS / Responsive Web Design -> K1
 - React -> K1, P1
 - Angular -> K1, K2, E1.2, P2
 - D3.js / Material Design -> K1, E1.2
-- Spring Boot -> K2, E1.1, P4, P5, P6
-- Spring Data JPA / JPA / JPQL / Hibernate -> E1.1, P1, P6, P7
-- Spring Security / RBAC / JWT -> E1.1, P1, P6
-- Spring Cloud / Eureka / Feign / OpenFeign -> E1.1, P1, P3
+- Spring Boot -> K2, E1.1, P5, P6, P7
+- Spring Data JPA / JPA / JPQL / Hibernate -> E1.1, P1, P7, P8
+- Spring Security / RBAC / JWT -> E1.1, P1, P7
+- Spring Cloud / Eureka / Feign / OpenFeign -> E1.1, P1, P4
 - Spring AI -> K4, P1
-- Resilience4j / circuit breakers -> E1.1, P3, P6
-- REST API -> E1.1, P6
-- Microservices -> E1.1, P1, P3, P4
+- Resilience4j / circuit breakers -> E1.1, P4, P7
+- REST API -> E1.1, P7
+- Microservices -> E1.1, P1, P4, P5
 - Flask -> P2
-- Stripe / Swagger UI / OpenAPI -> P6
-- PostgreSQL -> K3, E1.1, P1, P5, P6
+- Stripe / Swagger UI / OpenAPI -> P7
+- PostgreSQL -> K3, E1.1, P1, P6, P7
 - Neo4j / Cypher -> K3, E1.2
 - SQL / MongoDB / Redis -> K3
 - MinIO -> P1
-- Kafka -> K5, P1, P4
-- Schema Registry / Confluent -> P4
-- Docker / Docker Compose -> K5, E1.2, P4, P5
+- Kafka -> K5, P1, P5
+- Schema Registry / Confluent -> P5
+- Docker / Docker Compose -> K5, E1.2, P5, P6
 - Kubernetes / AKS / Fabric8 / Ingress -> K5, E1.2, P1
 - Azure -> K5, E1.1, E1.2
 - AWS / Git / GitHub / Postman / Tableau -> K5
-- Maven -> K5, P5
+- Maven -> K5, P6
 - CI/CD / Prometheus / JUnit / Mockito -> E1.1
 - SSE / real time streaming -> P1
-- Agentic AI / AI Agents / LangGraph -> S4.3, K4, E2.2
+- Agentic AI / AI Agents / LangGraph / agent orchestration / tool calling -> S4.3, K4, E2.2, P3
 - Deep Learning -> S4.3, K4
 - Adversarial Networks / GAN / WGAN-GP / CTGAN -> K4, P2
 - DeepHit / XGBoost / synthcity -> P2
@@ -272,27 +273,32 @@ A three model generative architecture for synthesizing realistic survival data. 
 </project>
 
 <project id="P3">
-3. Spring Microservices
-A distributed Spring Cloud system built from five independent services: a Eureka discovery-service for registration, an api-gateway as the single entry point, a centralized config-server, and order-service and inventory-service as the business domains. Services call each other declaratively through Feign clients, and Resilience4j guards every hop with circuit breakers, retries, and rate limiters so a slow or failing downstream degrades gracefully instead of cascading.
+3. QuizPilot - LangGraph AI Quiz Coach
+AI quiz coach built with Python and LangGraph featuring an orchestrator agent, specialist agents as tools, personalized questions, and resumable sessions.
 </project>
 
 <project id="P4">
-4. Kafka Project
-A microservices architecture demonstration featuring Apache Kafka configuration with Spring Boot, Schema Registry integration, and multiple services including notification-service and user-service. This project showcases event-driven architecture patterns with Docker containerization and Confluent platform.
+4. Spring Microservices
+A distributed Spring Cloud system built from five independent services: a Eureka discovery-service for registration, an api-gateway as the single entry point, a centralized config-server, and order-service and inventory-service as the business domains. Services call each other declaratively through Feign clients, and Resilience4j guards every hop with circuit breakers, retries, and rate limiters so a slow or failing downstream degrades gracefully instead of cascading.
 </project>
 
 <project id="P5">
-5. Docker Project
-A fully containerized backend Spring Boot service with PostgreSQL database using Docker Compose. This project demonstrates best practices in containerization, including multi-stage builds with Maven, environment configuration, and orchestration of multiple services.
+5. Kafka Project
+A microservices architecture demonstration featuring Apache Kafka configuration with Spring Boot, Schema Registry integration, and multiple services including notification-service and user-service. This project showcases event-driven architecture patterns with Docker containerization and Confluent platform.
 </project>
 
 <project id="P6">
-6. Airbnb - Hotel Booking System
-A comprehensive hotel booking system built with Spring Boot REST API. Persistence is handled with Spring Data JPA over PostgreSQL, while Spring Security provides role-based access control (RBAC) with JWT authentication across guest, host, and admin roles. Stripe powers payments, with webhooks handling asynchronous payment, payout, and refund events, and every endpoint is documented and testable through Swagger UI (OpenAPI). Rounded out with Resilience4j resilience patterns and dynamic pricing algorithms, this backend service handles booking requests with high availability and fault tolerance.
+6. Docker Project
+A fully containerized backend Spring Boot service with PostgreSQL database using Docker Compose. This project demonstrates best practices in containerization, including multi-stage builds with Maven, environment configuration, and orchestration of multiple services.
 </project>
 
 <project id="P7">
-7. Spring Data JPA Mappings
+7. Airbnb - Hotel Booking System
+A comprehensive hotel booking system built with Spring Boot REST API. Persistence is handled with Spring Data JPA over PostgreSQL, while Spring Security provides role-based access control (RBAC) with JWT authentication across guest, host, and admin roles. Stripe powers payments, with webhooks handling asynchronous payment, payout, and refund events, and every endpoint is documented and testable through Swagger UI (OpenAPI). Rounded out with Resilience4j resilience patterns and dynamic pricing algorithms, this backend service handles booking requests with high availability and fault tolerance.
+</project>
+
+<project id="P8">
+8. Spring Data JPA Mappings
 A hands-on reference for modeling relational data with Spring Data JPA and Hibernate, working through One-to-One, One-to-Many, and Many-to-Many entity relationships and the trade-offs each one carries. It demonstrates cascade operations for propagating persistence across associations, lazy versus eager fetching and the N+1 query behaviour that fetch strategy governs, and explicit join tables for owning the shape of many-to-many links rather than leaving it to convention.
 </project>
 </projects>
@@ -362,7 +368,7 @@ Look in (internal, never show): E1 -> E1.1 DeltaV Technology Team, E1.2 E&I Stud
 How to answer: In first person, give the role and dates from E1, then summarize the work from E1.1 and E1.2 as bullet points. Use real names, not IDs.
 
 User: “What projects have you worked on?”
-Look in (internal, never show): S4.6 -> P1-P7
+Look in (internal, never show): S4.6 -> P1-P8
 How to answer: In first person, list all 7 projects by name. For each, in one or two lines, mention the tech stack, briefly explain the purpose, and include impact or outcome only if the project states one. Use real names, not IDs.
 
 User: “Can I see your resume?”

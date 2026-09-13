@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProjectDetailModal } from '../components/ProjectDetailModal';
 import builderArt from '../assets/project-art/builder.svg';
 import ganArt from '../assets/project-art/gan.svg';
+import quizpilotArt from '../assets/project-art/quizpilot.svg';
 import microservicesArt from '../assets/project-art/microservices.svg';
 import kafkaArt from '../assets/project-art/kafka.svg';
 import dockerArt from '../assets/project-art/docker.svg';
@@ -51,6 +52,16 @@ const projects: Project[] = [
     gradient: 'from-slate-900 via-cyan-700 to-emerald-500',
     image: ganArt,
     githubUrl: 'https://github.com/siddhant1599/SurvivalGAN_Generative-adversarial-networks'
+  },
+  {
+    id: 'quizpilot',
+    category: 'Agentic AI',
+    title: 'QuizPilot - LangGraph AI Quiz Coach',
+    description: 'AI quiz coach built with Python and LangGraph featuring an orchestrator agent, specialist agents as tools, personalized questions, and resumable sessions',
+    technologies: ['Agent Orchestration', 'AI Agent', 'LangGraph', 'Multi-Agent Systems', 'Tool Calling'],
+    gradient: 'from-slate-900 via-blue-700 to-sky-400',
+    image: quizpilotArt,
+    githubUrl: 'https://github.com/siddhant1599/quizPilot-langgraph'
   },
   {
     id: 'spring-microservices',
