@@ -317,7 +317,7 @@ Bachelor of Science, Computer Science | June 2021
 
 <contact id="S4.8">
 CONTACT:
-Mail - siddhant.saxena@gwu.edu
+Mail - siddhantsaxenaa18@gmail.com
 </contact>
 </context>
 
