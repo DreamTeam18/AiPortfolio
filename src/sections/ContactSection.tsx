@@ -13,7 +13,7 @@ export function ContactSection() {
         {/* Email */}
         <div className="mb-6">
           <a
-            href="mailto:siddhant.saxena@gwu.edu"
+            href="mailto:siddhantsaxenaa18@gmail.com"
             className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 transition-colors group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
           >
             <span className="text-base sm:text-lg font-medium">siddhant.saxena@gwu.edu</span>
@@ -24,7 +24,7 @@ export function ContactSection() {
         {/* Social Links */}
         <div className="flex flex-wrap gap-6">
           <a
-            href="https://linkedin.com/in/siddhant-saxena"
+            href="www.linkedin.com/in/siddhant-saxena-sde"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
@@ -32,10 +32,10 @@ export function ContactSection() {
             LinkedIn
           </a>
           <a
-            href="#"
+            href="https://leetcode.com/u/krzyyy13337/"
             className="text-sm text-gray-500 hover:text-gray-800 transition-colors"
           >
-            Discord
+            Leetcode
           </a>
           <a
             href="https://github.com/siddhant1599"

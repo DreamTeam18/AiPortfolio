@@ -75,6 +75,7 @@ export function SkillsSection() {
               'Deep Learning',
               'Transformers',
               'AI Agents',
+              'LangGraph',
               'General Adversarial Networks',
               'CNNs',
               'Data Pipelines - ETL',
