@@ -20,6 +20,14 @@ function StreamingCursor() {
   );
 }
 
+// Markdown treats a single newline as a space, so a model that separates
+// paragraphs with one '\n' renders as a single wall of text. Promote those to
+// paragraph breaks, but leave newlines that lead into a list item or an
+// indented continuation line alone so lists stay tight.
+function toParagraphs(content: string) {
+  return content.replace(/([^\n])\n(?![\n \t]|[-*+] |\d+[.)] )/g, '$1\n\n');
+}
+
 interface ChatSectionProps {
   messages: ChatMessage[];
   isLoading?: boolean;
@@ -68,7 +76,7 @@ export function ChatSection({ messages, isLoading, streamingId, onAvatarClick }:
               {message.role === 'assistant' ? (
                 // Assistant messages: rendered markdown, left-aligned
                 <div className="prose prose-sm max-w-none text-gray-900 leading-relaxed [&>p]:mb-3 [&>ul]:mb-3 [&>ol]:mb-3 [&>ul]:list-disc [&>ul]:pl-5 [&>ol]:list-decimal [&>ol]:pl-5 [&_strong]:font-semibold [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mb-2 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-semibold [&>h3]:mb-1">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                  <ReactMarkdown>{toParagraphs(message.content)}</ReactMarkdown>
                   {message.id === streamingId && <StreamingCursor />}
                 </div>
               ) : (
