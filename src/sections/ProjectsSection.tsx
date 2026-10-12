@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { ProjectDetailModal } from '../components/ProjectDetailModal';
+import { ProjectDetailModal, type Project } from '../components/ProjectDetailModal';
 import builderArt from '../assets/project-art/builder-background.jpg';
 import ganArt from '../assets/project-art/gan-background.jpg';
 import quizpilotArt from '../assets/project-art/quizpilot-background.jpg';
@@ -11,19 +11,6 @@ import airbnbArt from '../assets/project-art/airbnb-background.jpg';
 import securityArt from '../assets/project-art/security-background.jpg';
 import jpaArt from '../assets/project-art/jpa-background.jpg';
 import laughgptArt from '../assets/project-art/laughgpt-background.jpg';
-
-interface Project {
-  id: string;
-  category: string;
-  title: string;
-  description: string;
-  technologies: string[];
-  gradient: string;
-  image: string;
-  period?: string;
-  highlights?: string[];
-  githubUrl?: string;
-}
 
 const projects: Project[] = [
   {
@@ -41,7 +28,34 @@ const projects: Project[] = [
     technologies: ['Java', 'Spring Boot', 'Spring AI', 'Kafka', 'Kubernetes', 'Fabric8', 'MinIO', 'PostgreSQL', 'Redis', 'SSE', 'OpenFeign', 'Spring Data JPA', 'React'],
     gradient: 'from-zinc-900 via-indigo-800 to-violet-600',
     image: builderArt,
-    githubUrl: 'https://github.com/siddhant1599/Builder.ai'
+    githubUrl: 'https://github.com/siddhant1599/Builder.ai',
+    architectureImages: [
+      {
+        src: '/images/builder-ai/app-overview.png',
+        title: 'Application overview',
+        description: 'Builder.ai generates a React snake game from a natural-language prompt, with AI chat, a code editor, and a live preview.'
+      },
+      {
+        src: '/images/builder-ai/microservices.png',
+        title: 'Microservices architecture',
+        description: 'The API gateway connects account, workspace, and intelligence services, supported by shared infrastructure and Kafka file events.'
+      },
+      {
+        src: '/images/builder-ai/ai-generation.png',
+        title: 'AI generation and storage',
+        description: 'A user prompt flows through file context and model tools into streamed output, with generated files and metadata persisted in MinIO and PostgreSQL.'
+      },
+      {
+        src: '/images/builder-ai/kubernetes-previews.png',
+        title: 'Kubernetes previews',
+        description: 'Runner and syncer containers keep generated apps up to date from MinIO, while Redis and a reverse proxy route traffic to isolated preview pods.'
+      },
+      {
+        src: '/images/builder-ai/data-model.png',
+        title: 'Data model',
+        description: 'The conceptual entity relationships connect users, plans, subscriptions, projects, memberships, files, previews, conversations, and usage.'
+      }
+    ]
   },
   {
     id: 'survival-gan',
