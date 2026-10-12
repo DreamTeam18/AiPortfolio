@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ProjectDetailModal } from '../components/ProjectDetailModal';
-import builderArt from '../assets/project-art/builder.svg';
-import ganArt from '../assets/project-art/gan.svg';
-import quizpilotArt from '../assets/project-art/quizpilot.svg';
-import microservicesArt from '../assets/project-art/microservices.svg';
-import kafkaArt from '../assets/project-art/kafka.svg';
-import dockerArt from '../assets/project-art/docker.svg';
-import airbnbArt from '../assets/project-art/airbnb.svg';
-import securityArt from '../assets/project-art/security.svg';
-import jpaArt from '../assets/project-art/jpa.svg';
-import laughgptArt from '../assets/project-art/laughgpt.svg';
+import builderArt from '../assets/project-art/builder-background.jpg';
+import ganArt from '../assets/project-art/gan-background.jpg';
+import quizpilotArt from '../assets/project-art/quizpilot-background.jpg';
+import microservicesArt from '../assets/project-art/microservices-background.jpg';
+import kafkaArt from '../assets/project-art/kafka-background.jpg';
+import dockerArt from '../assets/project-art/docker-background.jpg';
+import airbnbArt from '../assets/project-art/airbnb-background.jpg';
+import securityArt from '../assets/project-art/security-background.jpg';
+import jpaArt from '../assets/project-art/jpa-background.jpg';
+import laughgptArt from '../assets/project-art/laughgpt-background.jpg';
 
 interface Project {
   id: string;
@@ -181,14 +181,14 @@ export function ProjectsSection() {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full max-w-[624px] mx-auto py-2">
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-left">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 px-3 text-left">
         My Projects
       </h2>
 
       {/* Carousel Container */}
-      <div className="relative mb-8 overflow-hidden">
+      <div className="relative mx-auto mb-3 max-w-[208px] md:max-w-[416px] lg:max-w-[624px] overflow-hidden py-2">
         <div
           className="flex transition-transform duration-500 ease-out"
           style={{
@@ -198,17 +198,17 @@ export function ProjectsSection() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-2"
+              className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-1 flex justify-center"
             >
               <button
                 onClick={() => setSelectedProject(project)}
-                className="w-full h-64 rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full max-w-[200px] h-[clamp(220px,calc(100dvh-440px),280px)] flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer transform transition-transform hover:scale-[1.03] active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 aria-label={`View details for ${project.title}`}
               >
                 <div className={`relative w-full h-full bg-gradient-to-br ${project.gradient}`}>
                   {/* Project artwork */}
                   <div
-                    className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-50"
+                    className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-90"
                     style={{ backgroundImage: `url("${project.image}")` }}
                     aria-hidden="true"
                   />
@@ -217,7 +217,7 @@ export function ProjectsSection() {
                     className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"
                     aria-hidden="true"
                   />
-                  <div className="relative h-full p-6 flex flex-col justify-end">
+                  <div className="relative h-full p-4 flex flex-col justify-end">
                     <div
                       className="text-left text-white"
                       style={{ textShadow: '0 1px 6px rgba(0,0,0,0.75), 0 1px 2px rgba(0,0,0,0.6)' }}
@@ -225,7 +225,7 @@ export function ProjectsSection() {
                       <p className="text-sm font-semibold mb-2 tracking-wide">
                         {project.category}
                       </p>
-                      <h3 className="text-xl font-bold">
+                      <h3 className="text-lg font-bold leading-snug">
                         {project.title}
                       </h3>
                     </div>
@@ -237,43 +237,41 @@ export function ProjectsSection() {
         </div>
       </div>
 
-      {/* Pagination Dots */}
-      <div className="flex justify-center items-center gap-2 mb-6">
-        {Array.from({ length: maxIndex + 1 }, (_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrentIndex(i)}
-            className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-              i === currentIndex
-                ? 'w-6 bg-gray-900'
-                : 'w-2 bg-gray-300 hover:bg-gray-400'
-            }`}
-            aria-label={`Go to project ${i + 1} of ${maxIndex + 1}`}
-            aria-current={i === currentIndex ? 'true' : undefined}
-          />
-        ))}
-      </div>
-      <p className="sr-only" aria-live="polite">
-        {`Showing projects ${currentIndex + 1} to ${Math.min(currentIndex + slidesToShow, projects.length)} of ${projects.length}`}
-      </p>
-
-      {/* Navigation Arrows */}
-      <div className="flex justify-center gap-4">
+      {/* Keep navigation on one compact row below the cards. */}
+      <div className="flex justify-center items-center gap-4">
         <button
           onClick={handlePrevious}
-          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="p-2.5 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Previous project"
         >
           <ChevronLeft className="w-5 h-5 text-gray-700" />
         </button>
+        <div className="flex justify-center items-center gap-2">
+          {Array.from({ length: maxIndex + 1 }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                i === currentIndex
+                  ? 'w-6 bg-gray-900'
+                  : 'w-2 bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Go to project ${i + 1} of ${maxIndex + 1}`}
+              aria-current={i === currentIndex ? 'true' : undefined}
+            />
+          ))}
+        </div>
         <button
           onClick={handleNext}
-          className="p-3 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="p-2.5 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           aria-label="Next project"
         >
           <ChevronRight className="w-5 h-5 text-gray-700" />
         </button>
       </div>
+      <p className="sr-only" aria-live="polite">
+        {`Showing projects ${currentIndex + 1} to ${Math.min(currentIndex + slidesToShow, projects.length)} of ${projects.length}`}
+      </p>
 
       {/* Project Detail Modal */}
       {selectedProject && (

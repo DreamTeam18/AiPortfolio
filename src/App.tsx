@@ -227,17 +227,17 @@ function App() {
           <div className={`container mx-auto flex h-screen max-w-3xl flex-col transition-opacity duration-300 ${shellMounted ? 'opacity-100' : 'opacity-0'}`}>
 
             {/* Scrollable content area */}
-            <div className="flex-1 overflow-y-auto px-2" style={{ paddingTop: '100px' }}>
+            <div className="flex-1 overflow-y-auto px-2" style={{ paddingTop: activeSection === 'projects' ? '80px' : '100px' }}>
               <div className="pb-4">
                 <div className="flex h-full w-full flex-col px-4">
                   <div className="flex h-full w-full flex-col overflow-y-auto">
 
                     {/* Small avatar at top - persistent, no re-animation on section switch */}
                     {isContentSection && (
-                      <div className="flex justify-center pb-6">
+                      <div className={`flex justify-center ${activeSection === 'projects' ? 'pb-3' : 'pb-6'}`}>
                         <button
                           onClick={handleAvatarClick}
-                          className="w-24 h-24 cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className={`${activeSection === 'projects' ? 'w-[72px] h-[72px]' : 'w-24 h-24'} cursor-pointer hover:scale-105 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
                           aria-label="Return to landing page"
                         >
                           <img

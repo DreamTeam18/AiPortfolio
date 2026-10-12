@@ -1,0 +1,4 @@
+Mode: built-in image_gen
+Asset: src/assets/project-art/builder-background.jpg
+
+Use case: stylized-concept. Asset type: portrait background artwork for the Builder.ai project card in a developer portfolio, displayed at 200 by 280 pixels. Create a polished 3D illustration of AI generating a React web application from a chat prompt: a floating glass code-editor window with colorful code-like lines and a small luminous app preview window, connected to a glowing AI spark by a flowing stream of modular blocks. Deep midnight indigo background, violet and electric blue rim lighting, refined soft reflections, crisp simple silhouettes readable at thumbnail size. Concentrate the illustration in the upper two thirds; keep the lower third dark and uncluttered for a white title added by the website. Portrait 5:7 composition, full bleed. No readable text, no logos, no watermark, no border.
