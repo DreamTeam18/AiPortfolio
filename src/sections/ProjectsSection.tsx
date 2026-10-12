@@ -237,8 +237,8 @@ export function ProjectsSection() {
         </div>
       </div>
 
-      {/* Keep navigation on one compact row below the cards. */}
-      <div className="flex justify-center items-center gap-4">
+      {/* Navigation arrows sit together, with pagination underneath. */}
+      <div className="flex justify-center items-center gap-4 mb-3">
         <button
           onClick={handlePrevious}
           className="p-2.5 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -246,21 +246,6 @@ export function ProjectsSection() {
         >
           <ChevronLeft className="w-5 h-5 text-gray-700" />
         </button>
-        <div className="flex justify-center items-center gap-2">
-          {Array.from({ length: maxIndex + 1 }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentIndex(i)}
-              className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                i === currentIndex
-                  ? 'w-6 bg-gray-900'
-                  : 'w-2 bg-gray-300 hover:bg-gray-400'
-              }`}
-              aria-label={`Go to project ${i + 1} of ${maxIndex + 1}`}
-              aria-current={i === currentIndex ? 'true' : undefined}
-            />
-          ))}
-        </div>
         <button
           onClick={handleNext}
           className="p-2.5 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -268,6 +253,21 @@ export function ProjectsSection() {
         >
           <ChevronRight className="w-5 h-5 text-gray-700" />
         </button>
+      </div>
+      <div className="flex justify-center items-center gap-1.5">
+        {Array.from({ length: maxIndex + 1 }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`h-1 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              i === currentIndex
+                ? 'w-3 bg-gray-900'
+                : 'w-1 bg-gray-300 hover:bg-gray-400'
+            }`}
+            aria-label={`Go to project ${i + 1} of ${maxIndex + 1}`}
+            aria-current={i === currentIndex ? 'true' : undefined}
+          />
+        ))}
       </div>
       <p className="sr-only" aria-live="polite">
         {`Showing projects ${currentIndex + 1} to ${Math.min(currentIndex + slidesToShow, projects.length)} of ${projects.length}`}
